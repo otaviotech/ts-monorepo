@@ -9,6 +9,7 @@
     "@commitlint/config-conventional": "^16.0.0",
     "@commitlint/cz-commitlint": "^16.0.0",
     "commitizen": "^4.2.4",
+    "husky": "^7.0.4",
     "lerna": "^4.0.0"
   }
 }
