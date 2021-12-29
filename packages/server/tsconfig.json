@@ -3,6 +3,7 @@
     "outDir": "build",
     "module": "CommonJS",
     "target": "ES6",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowJs": true
   }
 }
