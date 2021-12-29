@@ -2,6 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
+	  "prettier":"lerna run prettier",
+	  "lint":"lerna run lint",
     "commit": "git-cz"
   },
   "devDependencies": {
