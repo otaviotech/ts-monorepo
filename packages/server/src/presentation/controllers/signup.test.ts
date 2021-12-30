@@ -1,25 +1,24 @@
-import { SignUpController } from './signup';
+import { SignUpController, SignUpInput } from './signup';
 import { RequestValidationError } from '../errors/validation';
-
-const omit = (obj, ...keys) =>
-  Object.fromEntries(
-    Object.entries(obj).filter(([key]) => !keys.includes(key))
-  );
+import { omit } from '../../../test/utils';
+import { SignUpInputValidator } from '../validators/signUp';
+import { HttpRequest } from '../protocols/http';
 
 describe('RegisterController', () => {
   const makeSut = () => {
-    const sut = new SignUpController();
-    const inputData = {
+    const signUpInputValidator = new SignUpInputValidator();
+    const sut = new SignUpController(signUpInputValidator);
+    const validRequest: HttpRequest = {
       body: {
         email: 'johndoe@email.com',
         username: 'jdoe',
         password: 'abc123',
-      },
+      } as SignUpInput,
     };
 
     return {
       sut,
-      inputData,
+      validRequest,
     };
   };
 
@@ -28,17 +27,17 @@ describe('RegisterController', () => {
   it.each(requiredFields)(
     'should return 400 if no %s is provided',
     async (requiredField) => {
-      const { sut, inputData } = makeSut();
+      const { sut, validRequest } = makeSut();
 
       const req = {
-        body: omit(inputData.body, requiredField),
+        body: omit(validRequest.body, requiredField) as SignUpInput,
       };
 
       const httpResponse = await sut.handle(req);
 
       expect(httpResponse.statusCode).toBe(400);
       expect(httpResponse.error).toEqual(
-        new RequestValidationError(`Field ${requiredField} is required.`)
+        new RequestValidationError(`Field ${requiredField} is required`)
       );
       expect(httpResponse.data).toBeUndefined();
     }
