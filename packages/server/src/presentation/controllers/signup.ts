@@ -1,6 +1,7 @@
 import { HttpRequest, HttpResponse } from '../protocols/http';
 import { Controller } from '../protocols/controller';
 import { InputValidator } from '../protocols/inputValidator';
+import { badRequest } from '../helpers/badRequest';
 
 export interface SignUpInput {
   email?: string;
@@ -17,10 +18,7 @@ export class SignUpController implements Controller {
     const validationResult = await this.signUpInputValidator.validate(req.body);
 
     if (!validationResult.isValid) {
-      return {
-        statusCode: 400,
-        error: validationResult.errors[0],
-      };
+      return badRequest(validationResult.errors?.[0]);
     }
 
     return { statusCode: 400 };
