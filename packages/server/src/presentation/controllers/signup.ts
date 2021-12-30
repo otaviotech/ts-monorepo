@@ -2,6 +2,7 @@ import { HttpRequest, HttpResponse } from '../protocols/http';
 import { Controller } from '../protocols/controller';
 import { InputValidator } from '../protocols/inputValidator';
 import { badRequest } from '../helpers/badRequest';
+import { SignUp, SignUpUseCaseInput } from '../../domain/usecases/signup';
 
 export interface SignUpInput {
   email?: string;
@@ -11,7 +12,8 @@ export interface SignUpInput {
 
 export class SignUpController implements Controller {
   constructor(
-    private readonly signUpInputValidator: InputValidator<SignUpInput>
+    private readonly signUpInputValidator: InputValidator<SignUpInput>,
+    private readonly signUp: SignUp
   ) {}
 
   async handle(req: HttpRequest): Promise<HttpResponse> {
@@ -21,6 +23,8 @@ export class SignUpController implements Controller {
       return badRequest(validationResult.errors?.[0]);
     }
 
-    return { statusCode: 400 };
+    await this.signUp.signup(req.body as SignUpUseCaseInput);
+
+    return { statusCode: 201 };
   }
 }
