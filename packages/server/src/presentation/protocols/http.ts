@@ -5,5 +5,5 @@ export interface HttpRequest {
 export interface HttpResponse {
   statusCode: number;
   data?: any;
-  error?: any;
+  error?: Error;
 }

@@ -1,22 +1,28 @@
-import { RequestValidationError } from '../errors/validation';
 import { HttpRequest, HttpResponse } from '../protocols/http';
+import { Controller } from '../protocols/controller';
+import { InputValidator } from '../protocols/inputValidator';
 
-export class SignUpController {
+export interface SignUpInput {
+  email?: string;
+  username?: string;
+  password?: string;
+}
+
+export class SignUpController implements Controller {
+  constructor(
+    private readonly signUpInputValidator: InputValidator<SignUpInput>
+  ) {}
+
   async handle(req: HttpRequest): Promise<HttpResponse> {
-    const requiredFields = ['email', 'username', 'password'];
+    const validationResult = await this.signUpInputValidator.validate(req.body);
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const field of requiredFields) {
-      if (!req.body[field]) {
-        return {
-          statusCode: 400,
-          error: new RequestValidationError(`Field ${field} is required.`),
-        };
-      }
+    if (!validationResult.isValid) {
+      return {
+        statusCode: 400,
+        error: validationResult.errors[0],
+      };
     }
 
-    return {
-      statusCode: 201,
-    };
+    return { statusCode: 400 };
   }
 }
