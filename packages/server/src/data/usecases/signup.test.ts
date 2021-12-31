@@ -9,6 +9,7 @@ import { FindProfileByEmailRepository } from '../protocols/findProfileByEmailRep
 import { Profile } from '../../domain/models/profile';
 import { UsernameAlreadyTakenError } from '../../domain/errors/usernameAlreadyTaken';
 import { FindProfileByUsernameRepository } from '../protocols/findProfileByUsernameRepository';
+import { CreateUserWithProfileRepository } from '../protocols/createUserWithProfileRepository';
 
 const makePasswordHasherStub = () => {
   class PasswordHasherStub implements PasswordHasher {
@@ -60,11 +61,25 @@ const makeFindProfileByUsernameRepo = () => {
   return new FindProfileByUsernameRepositoryStub();
 };
 
+const makeCreateUserWithProfileRepoStub = () => {
+  class CreateUserWithProfileRepositoryStub
+    implements CreateUserWithProfileRepository
+  {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async create(input: SignUpUseCaseInput): Promise<User> {
+      return {} as User;
+    }
+  }
+
+  return new CreateUserWithProfileRepositoryStub();
+};
+
 const makeSut = () => {
   const passwordHasherStub = makePasswordHasherStub();
   const findUserByEmailRepoStub = makeFindUserByEmailRepoStub();
   const findProfileByEmailRepoStub = makeFindProfileByEmailStub();
   const findProfileByUsernameRepoStub = makeFindProfileByUsernameRepo();
+  const createUserWithProfileRepoStub = makeCreateUserWithProfileRepoStub();
 
   const validInput = {
     email: 'johndoe@email.com',
@@ -76,7 +91,8 @@ const makeSut = () => {
     passwordHasherStub,
     findUserByEmailRepoStub,
     findProfileByEmailRepoStub,
-    findProfileByUsernameRepoStub
+    findProfileByUsernameRepoStub,
+    createUserWithProfileRepoStub
   );
 
   return {
@@ -85,6 +101,7 @@ const makeSut = () => {
     findUserByEmailRepoStub,
     findProfileByEmailRepoStub,
     findProfileByUsernameRepoStub,
+    createUserWithProfileRepoStub,
     validInput,
   };
 };
@@ -198,5 +215,39 @@ describe('SignUpUseCase', () => {
     const promise = sut.signup(validInput);
 
     expect(promise).rejects.toThrow(new UsernameAlreadyTakenError());
+  });
+
+  it('should create a user with a profile attached', async () => {
+    const {
+      sut,
+      findUserByEmailRepoStub,
+      findProfileByEmailRepoStub,
+      findProfileByUsernameRepoStub,
+      createUserWithProfileRepoStub,
+      validInput,
+    } = makeSut();
+
+    jest
+      .spyOn(findUserByEmailRepoStub, 'find')
+      .mockResolvedValueOnce(undefined);
+
+    jest
+      .spyOn(findProfileByEmailRepoStub, 'find')
+      .mockResolvedValueOnce(undefined);
+
+    jest
+      .spyOn(findProfileByUsernameRepoStub, 'find')
+      .mockResolvedValueOnce(undefined);
+
+    jest.spyOn(createUserWithProfileRepoStub, 'create');
+
+    const user = await sut.signup(validInput);
+
+    expect(createUserWithProfileRepoStub.create).toHaveBeenCalledWith({
+      ...validInput,
+      password: `hashed_${validInput.password}`,
+    });
+
+    expect(user).toBeDefined();
   });
 });
