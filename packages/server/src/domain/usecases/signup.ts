@@ -1,4 +1,4 @@
-import { Profile } from '../models/profile';
+import { Profile } from '@domain/models/profile';
 
 export interface SignUpUseCaseInput {
   email: string;

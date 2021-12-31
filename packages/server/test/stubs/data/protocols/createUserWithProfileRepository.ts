@@ -1,7 +1,7 @@
-import { CreateUserWithProfileRepository } from '../../../../src/data/protocols/createUserWithProfileRepository';
-import { User } from '../../../../src/domain/models/user';
-import { SignUpUseCaseInput } from '../../../../src/domain/usecases/signup';
-import { UserFactory } from '../../../factories/user';
+import { CreateUserWithProfileRepository } from '@data/protocols/createUserWithProfileRepository';
+import { User } from '@domain/models/user';
+import { SignUpUseCaseInput } from '@domain/usecases/signup';
+import { UserFactory } from '@test/factories/user';
 
 export class CreateUserWithProfileRepositoryStub
   implements CreateUserWithProfileRepository

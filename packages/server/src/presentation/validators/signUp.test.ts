@@ -1,7 +1,7 @@
-import { omit } from '../../../test/utils';
+import { omit } from '@test/utils';
+import { RequestValidationError } from '@presentation/errors/validation';
+import { SignUpInput } from '@presentation/controllers/signup';
 import { SignUpInputValidator } from './signUp';
-import { RequestValidationError } from '../errors/validation';
-import { SignUpInput } from '../controllers/signup';
 
 describe('SignUpRequestValidator', () => {
   const makeSut = () => {

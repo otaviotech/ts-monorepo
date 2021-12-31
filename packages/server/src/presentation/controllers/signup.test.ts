@@ -1,10 +1,17 @@
-import { SignUpController, SignUpInput } from './signup';
-import { RequestValidationError } from '../errors/validation';
-import { omit } from '../../../test/utils';
-import { SignUpInputValidator } from '../validators/signUp';
-import { HttpRequest } from '../protocols/http';
-import { SignUp, SignUpUseCaseInput } from '../../domain/usecases/signup';
-import { Profile } from '../../domain/models/profile';
+import { omit } from '@test/utils';
+
+// Presentation
+import { RequestValidationError } from '@presentation/errors/validation';
+import { SignUpInputValidator } from '@presentation/validators/signUp';
+import { HttpRequest } from '@presentation/protocols/http';
+import {
+  SignUpController,
+  SignUpInput,
+} from '@presentation/controllers/signup';
+
+// Domain
+import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
+import { Profile } from '@domain/models/profile';
 
 describe('RegisterController', () => {
   const makeSignUpUseCaseStub = () => {

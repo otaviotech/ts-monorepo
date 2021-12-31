@@ -1,6 +1,6 @@
 import faker from 'faker';
 import * as Factory from 'factory.ts';
-import { Profile } from '../../src/domain/models/profile';
+import { Profile } from '@domain/models/profile';
 
 export const ProfileFactory = Factory.Sync.makeFactory<Profile>({
   id: faker.datatype.number(),

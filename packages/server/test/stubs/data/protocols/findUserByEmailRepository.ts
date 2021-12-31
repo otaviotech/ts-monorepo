@@ -1,6 +1,6 @@
-import { FindUserByEmailRepository } from '../../../../src/data/protocols/findUserByEmailRepository';
-import { User } from '../../../../src/domain/models/user';
-import { UserFactory } from '../../../factories/user';
+import { FindUserByEmailRepository } from '@data/protocols/findUserByEmailRepository';
+import { User } from '@domain/models/user';
+import { UserFactory } from '@test/factories/user';
 
 export class FindUserByEmailRepositoryStub
   implements FindUserByEmailRepository

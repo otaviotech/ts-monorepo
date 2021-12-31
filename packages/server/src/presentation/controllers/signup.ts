@@ -1,8 +1,11 @@
-import { HttpRequest, HttpResponse } from '../protocols/http';
-import { Controller } from '../protocols/controller';
-import { InputValidator } from '../protocols/inputValidator';
-import { badRequest } from '../helpers/badRequest';
-import { SignUp, SignUpUseCaseInput } from '../../domain/usecases/signup';
+// Presentation
+import { HttpRequest, HttpResponse } from '@presentation/protocols/http';
+import { Controller } from '@presentation/protocols/controller';
+import { InputValidator } from '@presentation/protocols/inputValidator';
+import { badRequest } from '@presentation/helpers/badRequest';
+
+// Domain
+import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
 
 export interface SignUpInput {
   email?: string;

@@ -1,10 +1,11 @@
 import * as yup from 'yup';
+
 import {
   InputValidator,
   InputValidationResult,
-} from '../protocols/inputValidator';
-import { SignUpInput } from '../controllers/signup';
-import { RequestValidationError } from '../errors/validation';
+} from '@presentation/protocols/inputValidator';
+import { SignUpInput } from '@presentation/controllers/signup';
+import { RequestValidationError } from '@presentation/errors/validation';
 
 export class SignUpInputValidator implements InputValidator<SignUpInput> {
   async validate(input: SignUpInput): Promise<InputValidationResult> {

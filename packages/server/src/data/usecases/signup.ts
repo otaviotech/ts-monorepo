@@ -1,12 +1,15 @@
-import { EmailAreadyTakenError } from '../../domain/errors/emailAlreadyTaken';
-import { UsernameAlreadyTakenError } from '../../domain/errors/usernameAlreadyTaken';
-import { Profile } from '../../domain/models/profile';
-import { SignUp, SignUpUseCaseInput } from '../../domain/usecases/signup';
-import { CreateUserWithProfileRepository } from '../protocols/createUserWithProfileRepository';
-import { FindProfileByEmailRepository } from '../protocols/findProfileByEmailRepository';
-import { FindProfileByUsernameRepository } from '../protocols/findProfileByUsernameRepository';
-import { FindUserByEmailRepository } from '../protocols/findUserByEmailRepository';
-import { PasswordHasher } from '../protocols/passwordHasher';
+// Domain
+import { EmailAreadyTakenError } from '@domain/errors/emailAlreadyTaken';
+import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';
+import { Profile } from '@domain/models/profile';
+import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
+
+// Data
+import { CreateUserWithProfileRepository } from '@data/protocols/createUserWithProfileRepository';
+import { FindProfileByEmailRepository } from '@data/protocols/findProfileByEmailRepository';
+import { FindProfileByUsernameRepository } from '@data/protocols/findProfileByUsernameRepository';
+import { FindUserByEmailRepository } from '@data/protocols/findUserByEmailRepository';
+import { PasswordHasher } from '@data/protocols/passwordHasher';
 
 export class SignUpUseCase implements SignUp {
   constructor(
