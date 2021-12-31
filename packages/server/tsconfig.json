@@ -4,6 +4,12 @@
     "module": "CommonJS",
     "target": "ES6",
     "esModuleInterop": true,
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@domain/*": ["./src/domain/*"],
+      "@data/*": ["./src/data/*"],
+      "@presentation/*": ["./src/presentation/*"],
+      "@test/*": ["./test/*"]
+    }
   }
 }
