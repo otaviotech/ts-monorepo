@@ -2,6 +2,7 @@ import { EmailAreadyTakenError } from '../../domain/errors/emailAlreadyTaken';
 import { UsernameAlreadyTakenError } from '../../domain/errors/usernameAlreadyTaken';
 import { Profile } from '../../domain/models/profile';
 import { SignUp, SignUpUseCaseInput } from '../../domain/usecases/signup';
+import { CreateUserWithProfileRepository } from '../protocols/createUserWithProfileRepository';
 import { FindProfileByEmailRepository } from '../protocols/findProfileByEmailRepository';
 import { FindProfileByUsernameRepository } from '../protocols/findProfileByUsernameRepository';
 import { FindUserByEmailRepository } from '../protocols/findUserByEmailRepository';
@@ -12,7 +13,8 @@ export class SignUpUseCase implements SignUp {
     private readonly passwordHasher: PasswordHasher,
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     private readonly findProfileByEmailRepository: FindProfileByEmailRepository,
-    private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository
+    private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository,
+    private readonly createUserWithProfile: CreateUserWithProfileRepository
   ) {}
 
   async signup(input: SignUpUseCaseInput): Promise<Profile> {
@@ -35,12 +37,14 @@ export class SignUpUseCase implements SignUp {
       throw new UsernameAlreadyTakenError();
     }
 
-    await this.passwordHasher.hash(input.password);
+    const hashedPassword = await this.passwordHasher.hash(input.password);
 
-    // findAccountRepo.find({ userEmail, accountEmail, accountUsername })
+    const payload: SignUpUseCaseInput = {
+      ...input,
+      password: hashedPassword,
+    };
 
-    // verificar se já tem um User com esse email
-    // verificar se já tem um Profile com esse email ou username.
+    await this.createUserWithProfile.create(payload);
 
     return {} as Profile;
   }
