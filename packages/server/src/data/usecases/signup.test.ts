@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-classes-per-file
 import { CreateUserWithProfileRepositoryStub } from '@test/stubs/data/protocols/createUserWithProfileRepository';
 import { FindProfileByUsernameRepositoryStub } from '@test/stubs/data/protocols/findProfileByUsernameRepository';
 import { FindUserByEmailRepositoryStub } from '@test/stubs/data/protocols/findUserByEmailRepository';
