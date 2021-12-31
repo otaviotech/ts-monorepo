@@ -1,91 +1,24 @@
 // eslint-disable-next-line max-classes-per-file
-import { User } from '../../domain/models/user';
-import { SignUpUseCaseInput } from '../../domain/usecases/signup';
-import { FindUserByEmailRepository } from '../protocols/findUserByEmailRepository';
-import { PasswordHasher } from '../protocols/passwordHasher';
 import { SignUpUseCase } from './signup';
 import { EmailAreadyTakenError } from '../../domain/errors/emailAlreadyTaken';
-import { FindProfileByEmailRepository } from '../protocols/findProfileByEmailRepository';
-import { Profile } from '../../domain/models/profile';
 import { UsernameAlreadyTakenError } from '../../domain/errors/usernameAlreadyTaken';
-import { FindProfileByUsernameRepository } from '../protocols/findProfileByUsernameRepository';
-import { CreateUserWithProfileRepository } from '../protocols/createUserWithProfileRepository';
-
-const makePasswordHasherStub = () => {
-  class PasswordHasherStub implements PasswordHasher {
-    async hash(password: string): Promise<string> {
-      return `hashed_${password}`;
-    }
-  }
-
-  return new PasswordHasherStub();
-};
-
-const makeFindUserByEmailRepoStub = () => {
-  class FindUserByEmailRepoStub implements FindUserByEmailRepository {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async find(email: string): Promise<User> {
-      return {
-        id: 1,
-        email: 'johndoe@email.com',
-        name: 'John Doe',
-        password: 'abc123',
-      };
-    }
-  }
-
-  return new FindUserByEmailRepoStub();
-};
-
-const makeFindProfileByEmailStub = () => {
-  class FindProfileByEmailStub implements FindProfileByEmailRepository {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async find(email: string): Promise<Profile> {
-      return {} as Profile;
-    }
-  }
-
-  return new FindProfileByEmailStub();
-};
-
-const makeFindProfileByUsernameRepo = () => {
-  class FindProfileByUsernameRepositoryStub
-    implements FindProfileByUsernameRepository
-  {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async find(username: string): Promise<Profile> {
-      return {} as Profile;
-    }
-  }
-
-  return new FindProfileByUsernameRepositoryStub();
-};
-
-const makeCreateUserWithProfileRepoStub = () => {
-  class CreateUserWithProfileRepositoryStub
-    implements CreateUserWithProfileRepository
-  {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async create(input: SignUpUseCaseInput): Promise<User> {
-      return {} as User;
-    }
-  }
-
-  return new CreateUserWithProfileRepositoryStub();
-};
+import { CreateUserWithProfileRepositoryStub } from '../../../test/stubs/data/protocols/createUserWithProfileRepository';
+import { FindProfileByUsernameRepositoryStub } from '../../../test/stubs/data/protocols/findProfileByUsernameRepository';
+import { FindUserByEmailRepositoryStub } from '../../../test/stubs/data/protocols/findUserByEmailRepository';
+import { FindProfileByEmailStub } from '../../../test/stubs/data/protocols/findProfileByEmailRepository';
+import { PasswordHasherStub } from '../../../test/stubs/data/protocols/passwordHasher';
+import SignUpUseCaseFactory from '../../../test/factories/domain/usecases/signup';
 
 const makeSut = () => {
-  const passwordHasherStub = makePasswordHasherStub();
-  const findUserByEmailRepoStub = makeFindUserByEmailRepoStub();
-  const findProfileByEmailRepoStub = makeFindProfileByEmailStub();
-  const findProfileByUsernameRepoStub = makeFindProfileByUsernameRepo();
-  const createUserWithProfileRepoStub = makeCreateUserWithProfileRepoStub();
+  const passwordHasherStub = new PasswordHasherStub();
+  const findUserByEmailRepoStub = new FindUserByEmailRepositoryStub();
+  const findProfileByEmailRepoStub = new FindProfileByEmailStub();
+  const findProfileByUsernameRepoStub =
+    new FindProfileByUsernameRepositoryStub();
+  const createUserWithProfileRepoStub =
+    new CreateUserWithProfileRepositoryStub();
 
-  const validInput = {
-    email: 'johndoe@email.com',
-    username: 'jdoe',
-    password: 'abc123',
-  } as SignUpUseCaseInput;
+  const validInput = SignUpUseCaseFactory.ValidInputFactory.build({});
 
   const sut = new SignUpUseCase(
     passwordHasherStub,
