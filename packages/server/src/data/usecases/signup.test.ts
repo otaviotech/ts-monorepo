@@ -8,7 +8,7 @@ import { EmailAreadyTakenError } from '../../domain/errors/emailAlreadyTaken';
 import { FindProfileByEmailRepository } from '../protocols/findProfileByEmailRepository';
 import { Profile } from '../../domain/models/profile';
 import { UsernameAlreadyTakenError } from '../../domain/errors/usernameAlreadyTaken';
-import { FindProfileByUsernameRepository } from '../protocols/findProfileByEmailRepository copy';
+import { FindProfileByUsernameRepository } from '../protocols/findProfileByUsernameRepository';
 
 const makePasswordHasherStub = () => {
   class PasswordHasherStub implements PasswordHasher {

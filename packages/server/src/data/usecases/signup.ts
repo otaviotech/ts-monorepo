@@ -3,7 +3,7 @@ import { UsernameAlreadyTakenError } from '../../domain/errors/usernameAlreadyTa
 import { Profile } from '../../domain/models/profile';
 import { SignUp, SignUpUseCaseInput } from '../../domain/usecases/signup';
 import { FindProfileByEmailRepository } from '../protocols/findProfileByEmailRepository';
-import { FindProfileByUsernameRepository } from '../protocols/findProfileByEmailRepository copy';
+import { FindProfileByUsernameRepository } from '../protocols/findProfileByUsernameRepository';
 import { FindUserByEmailRepository } from '../protocols/findUserByEmailRepository';
 import { PasswordHasher } from '../protocols/passwordHasher';
 
