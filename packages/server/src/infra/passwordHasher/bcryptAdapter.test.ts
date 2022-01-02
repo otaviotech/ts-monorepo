@@ -26,4 +26,18 @@ describe('PasswordHasherBcryptAdapter', () => {
     expect(bcrypt.hash).toHaveBeenCalledWith(validInput, SALT);
     expect(hash).toBe(expected);
   });
+
+  it('should throw if bcrypt throw', async () => {
+    const { sut, validInput } = makeSut();
+
+    const expected = new Error('Error thrown by bcrypt.');
+
+    jest.spyOn(bcrypt, 'hash').mockImplementationOnce(() => {
+      throw expected;
+    });
+
+    const promise = sut.hash(validInput);
+
+    expect(promise).rejects.toThrow(expected);
+  });
 });
