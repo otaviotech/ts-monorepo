@@ -1,4 +1,4 @@
-import { Profile } from '@domain/models/profile';
+import { User } from '@domain/models/user';
 
 export interface SignUpUseCaseInput {
   email: string;
@@ -7,5 +7,5 @@ export interface SignUpUseCaseInput {
 }
 
 export interface SignUp {
-  signup(input: SignUpUseCaseInput): Promise<Profile>;
+  signup(input: SignUpUseCaseInput): Promise<User>;
 }

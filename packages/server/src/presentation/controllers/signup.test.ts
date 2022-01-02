@@ -11,23 +11,15 @@ import {
 
 // Domain
 import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
-import { Profile } from '@domain/models/profile';
+import { User } from '@domain/models/user';
+import { UserFactory } from '@test/factories/user';
 
 describe('RegisterController', () => {
   const makeSignUpUseCaseStub = () => {
     class SignUpUseCaseStub implements SignUp {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      async signup(input: SignUpUseCaseInput): Promise<Profile> {
-        return {
-          id: 1,
-          userId: 1,
-          username: 'jdoe',
-          name: 'John Doe',
-          site: '',
-          bio: '',
-          email: 'johndoe@email.com',
-          phone: '',
-        };
+      async signup(input: SignUpUseCaseInput): Promise<User> {
+        return UserFactory.build({});
       }
     }
 

@@ -1,7 +1,6 @@
 // Domain
 import { EmailAreadyTakenError } from '@domain/errors/emailAlreadyTaken';
 import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';
-import { Profile } from '@domain/models/profile';
 import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
 
 // Data
@@ -10,6 +9,7 @@ import { FindProfileByEmailRepository } from '@data/protocols/findProfileByEmail
 import { FindProfileByUsernameRepository } from '@data/protocols/findProfileByUsernameRepository';
 import { FindUserByEmailRepository } from '@data/protocols/findUserByEmailRepository';
 import { PasswordHasher } from '@data/protocols/passwordHasher';
+import { User } from '@domain/models/user';
 
 export class SignUpUseCase implements SignUp {
   constructor(
@@ -20,8 +20,7 @@ export class SignUpUseCase implements SignUp {
     private readonly createUserWithProfile: CreateUserWithProfileRepository
   ) {}
 
-  async signup(input: SignUpUseCaseInput): Promise<Profile> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async signup(input: SignUpUseCaseInput): Promise<User> {
     const user = await this.findUserByEmailRepository.find(input.email);
 
     if (user) {
@@ -47,8 +46,6 @@ export class SignUpUseCase implements SignUp {
       password: hashedPassword,
     };
 
-    await this.createUserWithProfile.create(payload);
-
-    return {} as Profile;
+    return this.createUserWithProfile.create(payload);
   }
 }
