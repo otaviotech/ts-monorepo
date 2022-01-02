@@ -5,6 +5,7 @@
     "target": "ES6",
     "esModuleInterop": true,
     "allowJs": true,
+    "strictNullChecks": true,
     "paths": {
       "@domain/*": ["./src/domain/*"],
       "@data/*": ["./src/data/*"],
