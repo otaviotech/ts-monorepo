@@ -7,5 +7,5 @@ export interface SignUpUseCaseInput {
 }
 
 export interface SignUp {
-  signup(input: SignUpUseCaseInput): Promise<User>;
+  signup(input: SignUpUseCaseInput): Promise<User | undefined>;
 }

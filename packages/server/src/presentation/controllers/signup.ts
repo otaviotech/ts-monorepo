@@ -23,7 +23,7 @@ export class SignUpController implements Controller {
     const validationResult = await this.signUpInputValidator.validate(req.body);
 
     if (!validationResult.isValid) {
-      return badRequest(validationResult.errors?.[0]);
+      return badRequest(validationResult.errors[0]);
     }
 
     await this.signUp.signup(req.body as SignUpUseCaseInput);

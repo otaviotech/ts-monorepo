@@ -9,7 +9,7 @@ import { RequestValidationError } from '@presentation/errors/validation';
 
 export class SignUpInputValidator implements InputValidator<SignUpInput> {
   async validate(input: SignUpInput): Promise<InputValidationResult> {
-    const result = {
+    const result: InputValidationResult = {
       isValid: true,
       errors: [],
     };

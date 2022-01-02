@@ -1,6 +1,6 @@
 export interface InputValidationResult {
   isValid: boolean;
-  errors?: Error[];
+  errors: Error[];
 }
 
 export interface InputValidator<T> {
