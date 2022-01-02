@@ -2,10 +2,11 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "prettier":"lerna run prettier",
-    "lint":"lerna run lint",
-    "test":"lerna run test",
-    "commit": "git-cz"
+    "prettier": "lerna run prettier",
+    "lint": "lerna run lint",
+    "test": "lerna run test",
+    "commit": "git-cz",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.0.1",
