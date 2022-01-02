@@ -1,6 +1,6 @@
-import { FindProfileByUsernameRepository } from '@data/protocols/findProfileByUsernameRepository';
-import { Profile } from '@domain/models/profile';
-import { ProfileFactory } from '@test/factories/profile';
+import { FindProfileByUsernameRepository } from '@data/protocols';
+import { Profile } from '@domain/models';
+import { ProfileFactory } from '@test/factories/domain/models';
 
 export class FindProfileByUsernameRepositoryStub
   implements FindProfileByUsernameRepository

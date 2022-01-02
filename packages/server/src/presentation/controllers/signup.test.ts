@@ -3,7 +3,7 @@ import { omit } from '@test/utils';
 // Presentation
 import { RequestValidationError } from '@presentation/errors/validation';
 import { SignUpInputValidator } from '@presentation/validators/signUp';
-import { HttpRequest } from '@presentation/protocols/http';
+import { HttpRequest } from '@presentation/protocols';
 import {
   SignUpController,
   SignUpInput,
@@ -11,8 +11,8 @@ import {
 
 // Domain
 import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
-import { User } from '@domain/models/user';
-import { UserFactory } from '@test/factories/user';
+import { User } from '@domain/models';
+import { UserFactory } from '@test/factories/domain/models';
 
 describe('RegisterController', () => {
   const makeSignUpUseCaseStub = () => {

@@ -1,8 +1,10 @@
-import { CreateUserWithProfileRepositoryStub } from '@test/stubs/data/protocols/createUserWithProfileRepository';
-import { FindProfileByUsernameRepositoryStub } from '@test/stubs/data/protocols/findProfileByUsernameRepository';
-import { FindUserByEmailRepositoryStub } from '@test/stubs/data/protocols/findUserByEmailRepository';
-import { FindProfileByEmailStub } from '@test/stubs/data/protocols/findProfileByEmailRepository';
-import { PasswordHasherStub } from '@test/stubs/data/protocols/passwordHasher';
+import {
+  CreateUserWithProfileRepositoryStub,
+  FindProfileByUsernameRepositoryStub,
+  FindUserByEmailRepositoryStub,
+  FindProfileByEmailStub,
+  PasswordHasherStub,
+} from '@test/stubs/data/protocols';
 import SignUpUseCaseFactory from '@test/factories/domain/usecases/signup';
 import { EmailAreadyTakenError } from '@domain/errors/emailAlreadyTaken';
 import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';

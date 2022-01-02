@@ -1,7 +1,7 @@
-import { CreateUserWithProfileRepository } from '@data/protocols/createUserWithProfileRepository';
-import { User } from '@domain/models/user';
+import { CreateUserWithProfileRepository } from '@data/protocols';
+import { User } from '@domain/models';
 import { SignUpUseCaseInput } from '@domain/usecases/signup';
-import { UserFactory } from '@test/factories/user';
+import { UserFactory } from '@test/factories/domain/models';
 
 export class CreateUserWithProfileRepositoryStub
   implements CreateUserWithProfileRepository

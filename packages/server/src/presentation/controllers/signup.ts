@@ -2,7 +2,7 @@
 import { HttpRequest, HttpResponse } from '@presentation/protocols/http';
 import { Controller } from '@presentation/protocols/controller';
 import { InputValidator } from '@presentation/protocols/inputValidator';
-import { badRequest } from '@presentation/helpers/badRequest';
+import { badRequest } from '@presentation/helpers';
 
 // Domain
 import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';

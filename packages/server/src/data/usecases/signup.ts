@@ -2,14 +2,16 @@
 import { EmailAreadyTakenError } from '@domain/errors/emailAlreadyTaken';
 import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';
 import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
+import { User } from '@domain/models';
 
 // Data
-import { CreateUserWithProfileRepository } from '@data/protocols/createUserWithProfileRepository';
-import { FindProfileByEmailRepository } from '@data/protocols/findProfileByEmailRepository';
-import { FindProfileByUsernameRepository } from '@data/protocols/findProfileByUsernameRepository';
-import { FindUserByEmailRepository } from '@data/protocols/findUserByEmailRepository';
-import { PasswordHasher } from '@data/protocols/passwordHasher';
-import { User } from '@domain/models/user';
+import {
+  CreateUserWithProfileRepository,
+  FindProfileByEmailRepository,
+  FindProfileByUsernameRepository,
+  FindUserByEmailRepository,
+  PasswordHasher,
+} from '@data/protocols';
 
 export class SignUpUseCase implements SignUp {
   constructor(

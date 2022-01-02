@@ -1,4 +1,4 @@
-import { User } from '@domain/models/user';
+import { User } from '@domain/models';
 
 export interface SignUpUseCaseInput {
   email: string;
