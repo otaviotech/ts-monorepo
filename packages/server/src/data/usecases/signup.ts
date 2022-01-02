@@ -19,7 +19,7 @@ export class SignUpUseCase implements SignUp {
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     private readonly findProfileByEmailRepository: FindProfileByEmailRepository,
     private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository,
-    private readonly createUserWithProfile: CreateUserWithProfileRepository
+    private readonly createUserWithProfileRepository: CreateUserWithProfileRepository
   ) {}
 
   async signup(input: SignUpUseCaseInput): Promise<User> {
@@ -48,6 +48,6 @@ export class SignUpUseCase implements SignUp {
       password: hashedPassword,
     };
 
-    return this.createUserWithProfile.create(payload);
+    return this.createUserWithProfileRepository.create(payload);
   }
 }
