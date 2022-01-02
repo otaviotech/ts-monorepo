@@ -108,19 +108,10 @@ describe('SignUpUseCase', () => {
   });
 
   it("should throw if there's already a profile with the same email", () => {
-    const {
-      sut,
-      findUserByEmailRepoStub,
-      findProfileByEmailRepoStub,
-      validInput,
-    } = makeSut();
+    const { sut, findUserByEmailRepoStub, validInput } = makeSut();
 
     jest
       .spyOn(findUserByEmailRepoStub, 'find')
-      .mockResolvedValueOnce(undefined);
-
-    jest
-      .spyOn(findProfileByEmailRepoStub, 'find')
       .mockResolvedValueOnce(undefined);
 
     const promise = sut.signup(validInput);
