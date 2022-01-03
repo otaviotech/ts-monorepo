@@ -1,11 +1,11 @@
-import { User as PrismaUser } from '@prisma/client';
+import { Profile as PrismaProfile } from '@prisma/client';
 import { createMockContext } from '@test/mocks/prismaContext';
-import { PrismaFindUserByEmailRepository } from './findUserByEmail';
+import { PrismaFindProfileByEmailRepository } from './findProfileByEmail';
 
-describe('PrismaFindUserByEmailRepository', () => {
+describe('PrismaFindProfileByEmailRepository', () => {
   const makeSut = () => {
     const prismaContext = createMockContext();
-    const sut = new PrismaFindUserByEmailRepository(prismaContext.prisma);
+    const sut = new PrismaFindProfileByEmailRepository(prismaContext.prisma);
     const validInput = 'johndoe@email.com';
 
     return {
@@ -19,8 +19,8 @@ describe('PrismaFindUserByEmailRepository', () => {
     const { sut, prismaContext, validInput } = makeSut();
 
     jest
-      .spyOn(prismaContext.prisma.user, 'findFirst')
-      .mockResolvedValueOnce({ id: 1 } as PrismaUser);
+      .spyOn(prismaContext.prisma.profile, 'findFirst')
+      .mockResolvedValueOnce({ id: 1 } as PrismaProfile);
 
     const result = await sut.find(validInput);
 
@@ -31,7 +31,7 @@ describe('PrismaFindUserByEmailRepository', () => {
     const { sut, prismaContext, validInput } = makeSut();
 
     jest
-      .spyOn(prismaContext.prisma.user, 'findFirst')
+      .spyOn(prismaContext.prisma.profile, 'findFirst')
       .mockResolvedValueOnce(null);
 
     const result = await sut.find(validInput);
