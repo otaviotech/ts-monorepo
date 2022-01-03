@@ -2,6 +2,5 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx --no -- commitlint --edit 
-npm run prettier
+npm run format 
 npm run lint 
-npm run test
