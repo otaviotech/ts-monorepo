@@ -10,5 +10,7 @@ module.exports = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',
   }),
+  testPathIgnorePatterns: ['<rootDir>/build'],
   coveragePathIgnorePatterns: ['<rootDir>/test'],
+  setupFiles: ['<rootDir>/test/setupTests.ts'],
 };
