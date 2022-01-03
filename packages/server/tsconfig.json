@@ -1,5 +1,4 @@
 {
-  "exclude": ["node_modules", "build"],
   "compilerOptions": {
     "outDir": "build",
     "module": "CommonJS",
@@ -10,6 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
+      "@main/*": ["./src/main/*"],
       "@infra/*": ["./src/infra/*"],
       "@domain/*": ["./src/domain/*"],
       "@data/*": ["./src/data/*"],
