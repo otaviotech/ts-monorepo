@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { injectable } from 'inversify';
 
 import {
   InputValidator,
@@ -7,6 +8,7 @@ import {
 import { SignUpInput } from '@presentation/controllers/signup';
 import { RequestValidationError } from '@presentation/errors/validation';
 
+@injectable()
 export class SignUpInputValidator implements InputValidator<SignUpInput> {
   async validate(input: SignUpInput): Promise<InputValidationResult> {
     const result: InputValidationResult = {

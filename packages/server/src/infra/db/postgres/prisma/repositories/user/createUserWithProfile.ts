@@ -1,8 +1,11 @@
+import { PrismaClient, Prisma } from '@prisma/client';
+import { injectable } from 'inversify';
+
 import { CreateUserWithProfileRepository } from '@data/protocols';
 import { User } from '@domain/models';
 import { SignUpUseCaseInput } from '@domain/usecases/signup';
-import { PrismaClient, Prisma } from '@prisma/client';
 
+@injectable()
 export class PrismaCreateUserWithProfileRepository
   implements CreateUserWithProfileRepository
 {
