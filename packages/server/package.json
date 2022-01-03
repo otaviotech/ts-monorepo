@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "build": "rm -rf build && tsc",
-    "format": "prettier --write .",
+    "format": "prettier --write . --loglevel=warn && npx prisma format",
     "lint": "eslint . --ext .ts --fix --no-error-on-unmatched-pattern",
     "test": "jest --passWithNoTests"
   },
