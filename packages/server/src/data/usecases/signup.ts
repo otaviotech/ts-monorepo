@@ -1,3 +1,5 @@
+import { inject, injectable } from 'inversify';
+
 // Domain
 import { EmailAreadyTakenError } from '@domain/errors/emailAlreadyTaken';
 import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';
@@ -13,12 +15,25 @@ import {
   PasswordHasher,
 } from '@data/protocols';
 
+// Main
+import { Types } from '@main/ioc/types';
+
+@injectable()
 export class SignUpUseCase implements SignUp {
   constructor(
+    @inject(Types.PasswordHasher)
     private readonly passwordHasher: PasswordHasher,
+
+    @inject(Types.FindUserByEmailRepository)
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
+
+    @inject(Types.FindProfileByEmailRepository)
     private readonly findProfileByEmailRepository: FindProfileByEmailRepository,
+
+    @inject(Types.FindProfileByUsernameRepository)
     private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository,
+
+    @inject(Types.CreateUserWithProfileRepository)
     private readonly createUserWithProfileRepository: CreateUserWithProfileRepository
   ) {}
 

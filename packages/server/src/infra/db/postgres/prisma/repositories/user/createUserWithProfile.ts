@@ -1,15 +1,21 @@
 import { PrismaClient, Prisma } from '@prisma/client';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
 
+// Data
 import { CreateUserWithProfileRepository } from '@data/protocols';
+
+// Domain
 import { User } from '@domain/models';
 import { SignUpUseCaseInput } from '@domain/usecases/signup';
+import { Types } from '@main/ioc/types';
 
 @injectable()
 export class PrismaCreateUserWithProfileRepository
   implements CreateUserWithProfileRepository
 {
-  constructor(private readonly prismaClient: PrismaClient) {}
+  constructor(
+    @inject(Types.PrismaClient) private readonly prismaClient: PrismaClient
+  ) {}
 
   async create(input: SignUpUseCaseInput): Promise<User> {
     const payload: Prisma.UserCreateInput = {

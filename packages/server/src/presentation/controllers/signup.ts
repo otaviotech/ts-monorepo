@@ -1,3 +1,8 @@
+import { inject, injectable } from 'inversify';
+
+// Main
+import { Types } from '@main/ioc/types';
+
 // Presentation
 import { HttpRequest, HttpResponse } from '@presentation/protocols/http';
 import { Controller } from '@presentation/protocols/controller';
@@ -13,10 +18,12 @@ export interface SignUpInput {
   password?: string;
 }
 
+@injectable()
 export class SignUpController implements Controller {
   constructor(
+    @inject(Types.SignUpInputValidator)
     private readonly signUpInputValidator: InputValidator<SignUpInput>,
-    private readonly signUp: SignUp
+    @inject(Types.SignUpUseCase) private readonly signUp: SignUp
   ) {}
 
   async handle(req: HttpRequest): Promise<HttpResponse> {

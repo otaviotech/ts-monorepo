@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient as _PrismaClient } from '@prisma/client';
+import { injectable } from 'inversify';
 
-const client = new PrismaClient();
-
-export default client;
+@injectable()
+export class PrismaClient extends _PrismaClient {}
