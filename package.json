@@ -5,6 +5,7 @@
     "format": "lerna run format",
     "lint": "lerna run lint",
     "test": "lerna run test",
+    "build": "lerna run build",
     "bootstrap": "lerna bootstrap",
     "commit": "git-cz",
     "prepare": "husky install"
