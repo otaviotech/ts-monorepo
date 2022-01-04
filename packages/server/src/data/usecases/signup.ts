@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 
 // Domain
-import { EmailAreadyTakenError } from '@domain/errors/emailAlreadyTaken';
+import { EmailAlreadyTakenError } from '@domain/errors/emailAlreadyTaken';
 import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';
 import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
 import { User } from '@domain/models';
@@ -41,13 +41,13 @@ export class SignUpUseCase implements SignUp {
     const user = await this.findUserByEmailRepository.find(input.email);
 
     if (user) {
-      throw new EmailAreadyTakenError();
+      throw new EmailAlreadyTakenError();
     }
 
     let profile = await this.findProfileByEmailRepository.find(input.email);
 
     if (profile) {
-      throw new EmailAreadyTakenError();
+      throw new EmailAlreadyTakenError();
     }
 
     profile = await this.findProfileByUsernameRepository.find(input.username);

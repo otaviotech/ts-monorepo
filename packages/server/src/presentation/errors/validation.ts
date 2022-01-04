@@ -6,4 +6,8 @@ export class RequestValidationError extends Error {
     this.data = data;
     this.name = 'RequestValidationError';
   }
+
+  toJSON() {
+    return { name: this.name, message: this.message };
+  }
 }

@@ -1,4 +1,4 @@
-export class EmailAreadyTakenError extends Error {
+export class EmailAlreadyTakenError extends Error {
   constructor() {
     super();
     this.name = 'EmailAlreadyTakenError';

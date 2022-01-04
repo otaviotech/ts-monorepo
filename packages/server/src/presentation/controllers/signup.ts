@@ -11,6 +11,8 @@ import { badRequest } from '@presentation/helpers';
 
 // Domain
 import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
+import { EmailAlreadyTakenError } from '@domain/errors/emailAlreadyTaken';
+import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';
 
 export interface SignUpInput {
   email?: string;
@@ -33,8 +35,20 @@ export class SignUpController implements Controller {
       return badRequest(validationResult.errors[0]);
     }
 
-    await this.signUp.signup(req.body as SignUpUseCaseInput);
+    const domainErrors = [
+      EmailAlreadyTakenError,
+      UsernameAlreadyTakenError,
+    ].map((e) => e.name);
 
-    return { statusCode: 201 };
+    try {
+      await this.signUp.signup(req.body as SignUpUseCaseInput);
+      return { statusCode: 201 };
+    } catch (error) {
+      if (domainErrors.includes(error.name)) {
+        return badRequest(error);
+      }
+
+      throw error;
+    }
   }
 }
