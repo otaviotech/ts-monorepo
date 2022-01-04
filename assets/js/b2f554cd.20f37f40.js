@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_viotemplate_docs=self.webpackChunk_viotemplate_docs||[]).push([[477],{10:function(e){e.exports={blogPosts:[]}}}]);
