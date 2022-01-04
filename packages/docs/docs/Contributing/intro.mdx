@@ -1,0 +1,56 @@
+import CodeBlock from '@theme/CodeBlock';
+
+# Quick start
+
+## Clone
+
+First of all, clone the repository and install the root dependencies.
+
+```sh
+$ git clone git@github.com:otaviotech/ts-monorepo.git
+$ npm install
+```
+
+## Bootstrap packages
+
+Now let Lerna take care of installing and linking the packages.
+
+```sh
+$ npm run bootstrap
+```
+
+## Commiting
+
+### Overview
+
+The root project has a setup containing Commitzen and CommitLint.
+
+### Strategy
+
+You should use conventional commits strategy to commit.
+
+### Example (manual)
+
+Let's say you've made some change to the `server` package.
+
+Your commit message should be like:
+
+```sh
+$ git commit -m "feat(server): add a Stripe webhook to listen for invoice.paid events"
+```
+
+If you need to create a long commit message, use commitzen.
+
+### Example (commitzen)
+
+You can run the `commit` script on the root package:
+
+```sh
+$ npm run commit
+```
+
+### TL;DR
+
+- Use the conventional commits convention.
+- The scope of the commit should _ALWAYS_ be the package you've made changes to.
+- Remember to make useful commits.
