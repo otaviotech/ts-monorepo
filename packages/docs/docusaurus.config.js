@@ -44,10 +44,10 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "Viotech",
+        title: "viotech | @ts-monorepo",
         logo: {
           alt: "Viotech's logo",
-          src: "img/logo.svg",
+          src: "img/viotech_logo_blue.svg",
         },
         items: [
           {
