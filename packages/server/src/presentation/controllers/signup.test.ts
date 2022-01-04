@@ -10,24 +10,17 @@ import {
 } from '@presentation/controllers/signup';
 
 // Domain
-import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
-import { User } from '@domain/models';
-import { UserFactory } from '@test/factories/domain/models';
+import { SignUpUseCaseInput } from '@domain/usecases/signup';
+
+// Test
+import { SignUpUseCaseStub } from '@test/stubs/data/usecases/signup';
+import { EmailAlreadyTakenError } from '@domain/errors/emailAlreadyTaken';
+import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';
 
 describe('RegisterController', () => {
-  const makeSignUpUseCaseStub = () => {
-    class SignUpUseCaseStub implements SignUp {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      async signup(input: SignUpUseCaseInput): Promise<User> {
-        return UserFactory.build({});
-      }
-    }
-
-    return new SignUpUseCaseStub();
-  };
   const makeSut = () => {
     const signUpInputValidator = new SignUpInputValidator();
-    const signUpUseCaseStub = makeSignUpUseCaseStub();
+    const signUpUseCaseStub = new SignUpUseCaseStub();
 
     const sut = new SignUpController(signUpInputValidator, signUpUseCaseStub);
 
@@ -66,6 +59,50 @@ describe('RegisterController', () => {
       expect(httpResponse.data).toBeUndefined();
     }
   );
+
+  const domainErrors = [
+    {
+      DomainError: EmailAlreadyTakenError,
+      name: EmailAlreadyTakenError.name,
+    },
+    {
+      DomainError: UsernameAlreadyTakenError,
+      name: UsernameAlreadyTakenError.name,
+    },
+  ];
+
+  it.each(domainErrors)(
+    'should return 400 if any domain error ($name) is thrown',
+    async ({ DomainError }) => {
+      const { sut, validRequest, signUpUseCaseStub } = makeSut();
+
+      const errorThrown = new DomainError();
+
+      jest.spyOn(signUpUseCaseStub, 'signup').mockImplementationOnce(() => {
+        throw errorThrown;
+      });
+
+      const httpResponse = await sut.handle(validRequest);
+
+      expect(httpResponse.statusCode).toBe(400);
+      expect(httpResponse.error).toEqual(errorThrown);
+      expect(httpResponse.data).toBeUndefined();
+    }
+  );
+
+  it('should throw if error is not a RequestValidationError nor a DomainError', async () => {
+    const { sut, validRequest, signUpUseCaseStub } = makeSut();
+
+    const errorThrown = new Error('This error should not be catch');
+
+    jest.spyOn(signUpUseCaseStub, 'signup').mockImplementationOnce(() => {
+      throw errorThrown;
+    });
+
+    const promise = sut.handle(validRequest);
+
+    expect(promise).rejects.toThrow(errorThrown);
+  });
 
   it('should call the SignUp usecase if validation passes', async () => {
     const { sut, signUpUseCaseStub, validRequest } = makeSut();

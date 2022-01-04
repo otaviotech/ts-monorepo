@@ -6,7 +6,7 @@ import {
   PasswordHasherStub,
 } from '@test/stubs/data/protocols';
 import SignUpUseCaseFactory from '@test/factories/domain/usecases/signup';
-import { EmailAreadyTakenError } from '@domain/errors/emailAlreadyTaken';
+import { EmailAlreadyTakenError } from '@domain/errors/emailAlreadyTaken';
 import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';
 import { SignUpUseCase } from './signup';
 
@@ -106,7 +106,7 @@ describe('SignUpUseCase', () => {
 
     const promise = sut.signup(validInput);
 
-    expect(promise).rejects.toThrow(new EmailAreadyTakenError());
+    expect(promise).rejects.toThrow(new EmailAlreadyTakenError());
   });
 
   it("should throw if there's already a profile with the same email", () => {
@@ -118,7 +118,7 @@ describe('SignUpUseCase', () => {
 
     const promise = sut.signup(validInput);
 
-    expect(promise).rejects.toThrow(new EmailAreadyTakenError());
+    expect(promise).rejects.toThrow(new EmailAlreadyTakenError());
   });
 
   it("should throw if there's already a profile with the same username", () => {
