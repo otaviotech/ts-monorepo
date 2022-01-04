@@ -1,8 +1,11 @@
+import { adapt } from '@main/server/adapters/expressRoute';
+import { container } from '@main/ioc/container';
+import { SignUpController } from '@presentation/controllers/signup';
 import { Router } from 'express';
 
 const router = Router();
 
-router.post('/', (req, res) => res.sendStatus(400));
+router.post('/', adapt(container.get(SignUpController)));
 
 export default {
   prefix: '/signup',

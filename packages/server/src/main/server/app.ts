@@ -1,10 +1,12 @@
 import express from 'express';
+import { buildIOC } from '@main/ioc';
 import { registerMiddlewares } from './middlewares';
 import { registerRoutes } from './routes';
 
 const app = express();
 
-registerRoutes(app);
+buildIOC();
 registerMiddlewares(app);
+registerRoutes(app);
 
 export default app;
