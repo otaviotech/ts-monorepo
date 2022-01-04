@@ -1,0 +1,115 @@
+import ToolsTable from "../../src/components/ToolsTable";
+
+# Tools
+
+<p> Here's a summary of the tools used in this project and their versions.</p>
+<p>A deep dive of each dependency is available at 'LINK'.</p>
+
+## Runtime tools
+
+<ToolsTable type="production" />
+
+### @prisma/client
+
+<p>
+  This is the Prisma client. It's used to actually perform the connection and
+  queries to the database.
+</p>
+
+### bcrypt
+
+<p>This is a popular cryptography tool.</p>
+<p>
+  Currently we only use it to hash the user's password with a salt before
+  storing them in the database.
+</p>
+
+### body-parser
+
+<p>
+  This is a <code>Express</code> middleware used to parse the http requests
+  bodies from text to JSON.
+</p>
+
+### dotenv
+
+<p>
+  This is a library used to populate <code>proccess.env.*</code> using a
+  template file. E.g.: <code>.env</code>
+</p>
+
+### express
+
+<p>This is a popular and battle tested web framework.</p>
+<p>
+  We currently use it for handling low level http (requests, responses, headers,
+  etc).
+</p>
+
+### helmet
+
+<p>
+  This is collection of <code>Express</code> middlewares that ensures the bare
+  minimum security gotchas when it comes to web servers.
+</p>
+<p>
+  E.g.: It removes the <code>X-Powered-By</code> header from the http responses,
+  so we don't spoil what web framework we are using, preventing attackers to
+  apply tool specific sploits.
+</p>
+
+### http-status-codes
+
+<p>This is a simply tool to help readability of the HTTP status codes.</p>
+<p>It provides all HTTP status through constants and also some util helpers.</p>
+<p>
+  E.g.: <code>HttpStatusCode.BAD_REQUEST</code>
+</p>
+
+### inversify
+
+<p>
+  This is our <i>IoC container</i>.
+</p>
+<p>
+  Currently, we use it in our <i>Composition Root</i> in the main layer, to
+  handle creation of instances and their scopes.
+</p>
+
+### reflect-metadata
+
+<p>
+  This is a peer dependency of <code>inversify</code> and it's necessary to
+  perform runtime reflection on types.
+</p>
+
+### tsconfig-paths
+
+<p>
+  This library allow us use to use TypeScript path aliases in production, so our
+  transpiled JavaScript files know how to resolve the path aliased modules at
+  runtime.
+</p>
+
+<p>
+  E.g.: <code>import SignUpUseCase from '@data/usecases';</code>
+</p>
+
+### yup
+
+<p>This is validation library based in schemas.</p>
+<p>
+  It's very useful at our <i>Presentation Layer</i> where we do the schema
+  validation of the inputs.
+</p>
+<p>
+  Remember, it's only <b>Schema</b> validation, not <b>Domain</b> validation.
+</p>
+<p>
+  Domain validation like verify uniqueness of an email is done at the{" "}
+  <code>Data Layer</code>
+</p>
+
+## Development tools
+
+<ToolsTable type="dev" />
