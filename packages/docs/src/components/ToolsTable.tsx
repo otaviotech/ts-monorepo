@@ -1,5 +1,5 @@
 import React from "react";
-const pkg = require("../../static/server.package.json");
+const pkg = require("@viotemplate/server/package.json");
 
 const mapTools = (tools) => {
   return Object.entries(tools).map((entry) => {
