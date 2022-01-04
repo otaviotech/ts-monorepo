@@ -6,15 +6,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'viotech',
-  tagline: 'Docs',
+  title: '@viotemplate/ts-monorepo',
+  tagline: 'A monorepo template project using TypeScript.',
   url: 'https://template.viotech.io/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'viotech', // Usually your GitHub org/user name.
-  projectName: '@viotemplate/docs', // Usually your repo name.
+  organizationName: 'otaviotech', // Usually your GitHub org/user name.
+  projectName: '@viotemplate/docs',
 
   presets: [
     [
@@ -78,7 +78,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Viotech, Inc. Built in Brazil with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
