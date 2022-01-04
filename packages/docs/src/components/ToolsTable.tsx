@@ -1,5 +1,5 @@
-import React from "react";
-const pkg = require("@viotemplate/server/package.json");
+import React from 'react';
+const pkg = require('@viotemplate/server/package.json');
 
 const mapTools = (tools) => {
   return Object.entries(tools).map((entry) => {
@@ -14,7 +14,7 @@ const mapTools = (tools) => {
 
 const ToolsTable = ({ type }) => {
   const tools = mapTools(
-    type === "production" ? pkg.dependencies : pkg.devDependencies
+    type === 'production' ? pkg.dependencies : pkg.devDependencies
   );
 
   return (
