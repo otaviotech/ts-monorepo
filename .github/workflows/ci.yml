@@ -34,10 +34,15 @@ jobs:
         run: npm run bootstrap
 
       - name: Run all tests
-        run: npm run test
+        run: npm run test:ci
 
       - name: Build all packages
         run: npm run build
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v2
+        with:
+          working-directory: ./packages/server
 
       - name: Deploy Docs
         uses: peaceiris/actions-gh-pages@v3
