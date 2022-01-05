@@ -1,0 +1,150 @@
+---
+sidebar_position: 2
+---
+
+# Architecture
+
+## Overview
+
+It's heavily inspired by Uncle Bob's `Clean Architeture`.
+
+So, if you haven't read the book yet, here's a recommendation.
+
+### Is it overkill?
+
+The answer is: "it dependends".
+
+Maybe if you're building a simple app, which won't grow, or be coded by a large team, this is definetely an overkill.
+
+But in the other hand, if you want to quickly bootstrap a project, with the right tools and a solid workflow, ready for scaling, you should consider this.
+
+### Why is it an overkill?
+
+1. Because your project will have a short lifecycle.
+2. Because you won't mantain your codebase for much longer.
+3. You don't care.
+
+### Why it is NOT an overkill?
+
+1. You get everything setup by the click of a button.
+2. You have a battle-tested/optionated/solid architecture inspired project.
+3. You have a large team and you don't have time to make code reviews to check for syntax errors.
+4. You want to build a long term / forever evolving project that doesn't depend on implementations, so you can easily change libraries as time goes by. (Without having to re-write much code)
+
+## Motivation
+
+Let's see why chose to use some tools.
+
+### TypeScript
+
+#### Is it necessary?
+
+No. definetely not. But it has some pros that we should take in count.
+
+Let's suppose you have a large codebase.
+
+- How easy is it to identify and use some business API?
+- How easy is it to detect syntax errors?
+- How easy is it to know what is an abstraction and what is an implementation?
+
+Static typechecking is very helpful when you don't overuse it.
+
+_Tip_: Don't forget to read our `style guide`, to understand how you should write TypeScript code in this project.
+
+## Folder Structure
+
+![Folder Structure](/img/docs/server/architecture/folder_structure.png)
+
+## Layers
+
+This is a quick explanation of what each layer should care about.
+
+### Presentation layer
+
+This is where we handle and deliver data.
+
+#### What this layer should do?
+
+Currently, it should:
+
+- Validate (schema validate) an incoming request
+- Route the request to the right UseCase (business logic handler)
+- Handle Domain, Validation and Runtime errors and build an HTTP request. (E.g.: define what status code it should have)
+
+#### Patterns you'll find here:
+
+- Controller
+- Factory
+
+### Domain layer
+
+This is where all of our business contracts live.
+
+It should have only contracts(abstractions), not implementations.
+
+Here you'll find UseCases, Errors, Events.
+
+#### What this layer should do?
+
+This layer should scream, by itself, all the software do.
+It should not implement any business logic, but instead, show exactly how the API should be.
+
+#### Patterns you wil find here
+
+None, this should NOT implement anything.
+
+### Data layer
+
+This is the layer that implements our business logic. Yes, the ones defined by the Domain layer.
+
+#### What this layer should do?
+
+This layer should implement the UseCases, for example.
+
+Also, it should define its own contracts. These contracts are not Business contracts, like the ones in the Domain layer. Instead, these are contracts the define how the data logic can be implemented.
+
+You can think of it like the Service layer of the 3 Layer Architecture. (but be careful)
+
+#### Patterns you will find here
+
+- Factory
+- Decorator
+
+### Infra layer
+
+This is a layer where the data contracts are implemented.
+Things like ORM's and Email services implementations live here.
+
+#### What this layer should do?
+
+- Implement contracts defined by the Data layer
+- Integrate with externa services like Database, Email, Logging, Push.
+
+#### Patterns you will find here
+
+- Data Mapper
+- Repository
+
+### Main layer
+
+This is the dirtiest layer of our whole software.
+
+It's the only layer that know every implementation of every contract from every layer.
+
+This is our Composition Root.
+
+This can make magical things like swapping what service is being used to send emails or change the database implementation.
+
+#### What this layer should do?
+
+- Define what implementation to use for each contract
+- Compose every component of our software
+- Instantiate every class needed
+- Take care of all the components lifecycles
+
+#### Patterns you will find here
+
+- Factory
+- Composition Root
+- Dependency Injection
+- IoC Container
