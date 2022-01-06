@@ -1,3 +1,4 @@
+import { InvalidCredentialsError } from '@domain/errors/invalidCredentials';
 import { SignInUseCase, SignInUseCaseInput } from '@domain/usecases/signin';
 import { badRequest } from '@presentation/helpers';
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols';
@@ -21,13 +22,19 @@ export class SignInController implements Controller {
       return badRequest(validationResult.errors[0]);
     }
 
-    const jwt = await this.signInUseCase.signin(req.body as SignInUseCaseInput);
+    const domainErrors = [InvalidCredentialsError].map((e) => e.name);
 
-    return {
-      statusCode: 200,
-      data: {
-        jwt,
-      },
-    };
+    try {
+      const jwt = await this.signInUseCase.signin(
+        req.body as SignInUseCaseInput
+      );
+      return { statusCode: 200, data: { jwt } };
+    } catch (error) {
+      if (domainErrors.includes(error.name)) {
+        return badRequest(error);
+      }
+
+      throw error;
+    }
   }
 }
