@@ -72,6 +72,20 @@ describe('SignInController', () => {
     }
   );
 
+  it('should throw if error is not a RequestValidationError nor a DomainError', async () => {
+    const { sut, validRequest, signInUseCaseStub } = makeSut();
+
+    const errorThrown = new Error('This error should not be catch');
+
+    jest.spyOn(signInUseCaseStub, 'signin').mockImplementationOnce(() => {
+      throw errorThrown;
+    });
+
+    const promise = sut.handle(validRequest);
+
+    expect(promise).rejects.toThrow(errorThrown);
+  });
+
   it('should return a jwt token in the body of the response', async () => {
     const { sut, signInUseCaseStub, validRequest } = makeSut();
 
