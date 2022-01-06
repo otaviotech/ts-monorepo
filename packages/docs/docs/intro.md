@@ -12,3 +12,4 @@ Here you'll find everything you need to understand the whole application.
 - Design Docs
 - Architectural Diagrams
 - Contributing guides
+- API documentation

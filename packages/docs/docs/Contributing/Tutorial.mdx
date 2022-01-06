@@ -1,7 +1,5 @@
 import CodeBlock from '@theme/CodeBlock';
 
-# Quick start
-
 ## Clone
 
 First of all, clone the repository and install the root dependencies.
@@ -54,3 +52,31 @@ $ npm run commit
 - Use the conventional commits convention.
 - The scope of the commit should _ALWAYS_ be the package you've made changes to.
 - Remember to make useful commits.
+
+## Opening a PR
+
+### Review the checklist
+
+First of all(and don't skip this), go to the checklist of each package you worked on and ensure you followed all the steps.
+
+### Targeting
+
+Your feature pull requests should ALWAYS source and target the `develop` branch. (see GitFlow)
+
+### Follow the PR Template
+
+**The TITLE** should have the issue id and a very short explaination. It should also have a friendly message, because it will appear on the `CHANGELOG`.
+
+E.g.: `[VT-2] Add social login with Google`
+
+**The BODY** should have technical details about the change.
+
+To make it easier for reviewers:
+
+- Explain what is the goal of the PR
+- Explain how it was before and after your changes
+- Explain why you used some approach
+- Explain What your change affects
+
+And the **MOST IMPORTANT**: review your own pull request before opening!
+Sounds odd, but it's very helpful, give it a try.
