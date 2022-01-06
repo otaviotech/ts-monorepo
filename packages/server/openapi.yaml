@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: '@viotemplate/server API'
+  description: 'The @viotemplate/server API spec.'
+  termsOfService: https://template.viotech.io
+  contact:
+    name: Otávio Araújo
+    url: https://github.com/otaviotech
+    email: ot@viotech.io
+  license:
+    name: MIT
+    url: https://github.com/otaviotech/ts-monorepo/blob/main/LICENSE
+
+servers:
+  - url: https://dev-template.viotech.io/v1
+    description: Dev Environment
+
+tags:
+  - name: auth
+    description: Authentication
+
+paths:
+  /auth/signup:
+    post:
+      summary: Create an account
+      description: Creates an account.
+      operationId: signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: The email that will be used to login.
+                  example: johndoe@email.com
+                password:
+                  type: string
+                  description: The password that will be used to login.
+                  example: strongpassword!
+                username:
+                  type: string
+                  description: This will be the username associated to the profile.
+                  example: jdoe
+              required: [email, password, username]
+
+      responses:
+        201:
+          description: Account created successfuly.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    description: The id of the created account.
+                    example: 1
+        400:
+          description: Sent data was invalid in some way.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the error.
+                        example: RequestValidationError
+                      message:
+                        type: string
+                        description: The details of the error.
+                        example: Field email must be a valid email address.
+        500:
+          description: Something went wrong while handling the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the error.
+                        example: InternalError
+                      message:
+                        type: string
+                        description: The details of the error.
+                        example: Something went wrong.

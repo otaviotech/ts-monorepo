@@ -1,8 +1,9 @@
 import { Express, Router } from 'express';
 
+import Spec from './apispec';
 import SignUp from './signup';
 
-const routers = [SignUp];
+const routers = [Spec, SignUp];
 
 export const registerRoutes = (app: Express) => {
   const api = Router();
