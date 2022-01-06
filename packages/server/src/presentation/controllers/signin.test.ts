@@ -1,3 +1,4 @@
+import { InvalidCredentialsError } from '@domain/errors/invalidCredentials';
 import { RequestValidationError } from '@presentation/errors/validation';
 import { SignInInputValidator } from '@presentation/validators/signIn';
 import { SignInUseCaseStub } from '@test/stubs/data/usecases';
@@ -41,6 +42,32 @@ describe('SignInController', () => {
       expect(httpResponse.error).toEqual(
         new RequestValidationError(`Field ${requiredField} is required`)
       );
+      expect(httpResponse.data).toBeUndefined();
+    }
+  );
+
+  const domainErrors = [
+    {
+      DomainError: InvalidCredentialsError,
+      name: InvalidCredentialsError.name,
+    },
+  ];
+
+  it.each(domainErrors)(
+    'should return 400 if any domain error ($name) is thrown',
+    async ({ DomainError }) => {
+      const { sut, validRequest, signInUseCaseStub } = makeSut();
+
+      const errorThrown = new DomainError();
+
+      jest.spyOn(signInUseCaseStub, 'signin').mockImplementationOnce(() => {
+        throw errorThrown;
+      });
+
+      const httpResponse = await sut.handle(validRequest);
+
+      expect(httpResponse.statusCode).toBe(400);
+      expect(httpResponse.error).toEqual(errorThrown);
       expect(httpResponse.data).toBeUndefined();
     }
   );
