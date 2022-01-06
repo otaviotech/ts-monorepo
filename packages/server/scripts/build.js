@@ -21,6 +21,11 @@ async function compileTS() {
   shell.exec('npm run build:ts');
 }
 
+async function compileApiDocs() {
+  console.log('Compiling API Docs...');
+  shell.exec('npm run build:docs');
+}
+
 async function copyEnvFile() {
   console.log('Copying .env file...');
 
@@ -33,6 +38,7 @@ async function copyEnvFile() {
 async function build() {
   await cleanOutDir();
   await compileTS();
+  await compileApiDocs();
 
   if (isDev) {
     await copyEnvFile();
