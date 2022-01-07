@@ -63,6 +63,7 @@
     "reflect-metadata": "^0.1.13",
     "tsconfig-paths": "^3.12.0",
     "winston": "^3.3.3",
+    "winston-transport-sentry-node": "^2.1.0",
     "yup": "^0.32.11"
   },
   "prisma": {
