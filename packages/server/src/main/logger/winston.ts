@@ -1,4 +1,5 @@
 import winston from 'winston';
+import SentryTransport from 'winston-transport-sentry-node';
 
 const levels = {
   error: 0,
@@ -40,6 +41,12 @@ const transports = [
   }),
   new winston.transports.File({
     filename: 'logs/all.log',
+  }),
+  new SentryTransport({
+    sentry: {
+      dsn: process.env.SENTRY_DSN,
+    },
+    level: 'error',
   }),
 ];
 
