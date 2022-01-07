@@ -6,12 +6,12 @@ import { AuthTokenGenerator } from '@data/protocols/authTokenGenerator';
 import { FindUserByProfileIdRepository } from '@data/protocols/findUserByProfileIdRepository';
 import { PasswordHashComparer } from '@data/protocols/passwordHashComparer';
 import { InvalidCredentialsError } from '@domain/errors/invalidCredentials';
-import { SignInUseCase, SignInUseCaseInput } from '@domain/usecases/signin';
+import { SignIn, SignInUseCaseInput } from '@domain/usecases/signin';
 import { Types } from '@main/ioc/types';
 import { inject, injectable } from 'inversify';
 
 @injectable()
-export class SignIn implements SignInUseCase {
+export class SignInUseCase implements SignIn {
   constructor(
     @inject(Types.FindProfileByEmailRepository)
     private readonly findProfileByEmailRepository: FindProfileByEmailRepository,

@@ -8,7 +8,7 @@ import {
 import { AuthTokenGeneratorStub } from '@test/stubs/data/protocols/authTokenGenerator';
 import { FindUserByProfileIdRepositoryStub } from '@test/stubs/data/protocols/findUserByProfileIdRepository';
 import { PasswordHashComparerStub } from '@test/stubs/data/protocols/passwordHashComparer';
-import { SignIn } from './signin';
+import { SignInUseCase } from './signin';
 
 describe('SignInUseCase', () => {
   const makeSut = () => {
@@ -20,7 +20,7 @@ describe('SignInUseCase', () => {
     const passwordHashComparerStub = new PasswordHashComparerStub();
     const authTokenGeneratorStub = new AuthTokenGeneratorStub();
 
-    const sut = new SignIn(
+    const sut = new SignInUseCase(
       findProfileByEmailRepositoryStub,
       findProfileByUsernameRepositoryStub,
       findUserByProfileIdRepositoryStub,

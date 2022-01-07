@@ -1,5 +1,5 @@
 import { InvalidCredentialsError } from '@domain/errors/invalidCredentials';
-import { SignInUseCase, SignInUseCaseInput } from '@domain/usecases/signin';
+import { SignIn, SignInUseCaseInput } from '@domain/usecases/signin';
 import { Types } from '@main/ioc/types';
 import { badRequest } from '@presentation/helpers';
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols';
@@ -17,7 +17,7 @@ export class SignInController implements Controller {
     @inject(Types.SignInInputValidator)
     private readonly signInInputValidator: SignInInputValidator,
     @inject(Types.SignInUseCase)
-    private readonly signInUseCase: SignInUseCase
+    private readonly signInUseCase: SignIn
   ) {}
 
   async handle(req: HttpRequest): Promise<HttpResponse> {

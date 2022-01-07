@@ -3,6 +3,6 @@ export interface SignInUseCaseInput {
   password: string;
 }
 
-export interface SignInUseCase {
+export interface SignIn {
   signin(input: SignInUseCaseInput): Promise<string>;
 }
