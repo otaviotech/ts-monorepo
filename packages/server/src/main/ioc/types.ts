@@ -19,20 +19,28 @@ const Hashers = {
   PasswordHasher: Symbol.for('PasswordHasher'),
 };
 
+const HashComparers = {
+  PasswordHashComparer: Symbol.for('PasswordHashComparer'),
+};
+
 const UseCases = {
   SignUpUseCase: Symbol.for('SignUpUseCase'),
   SignInUseCase: Symbol.for('SignInUseCase'),
 };
 
-export const Types = {
-  PrismaClient: Symbol.for('PrismaClient'),
-  AuthTokenGenerator: Symbol.for('AuthTokenGenerator'),
-  PasswordHashComparer: Symbol.for('PasswordHashComparer'),
+const Facades = {
   AuthService: Symbol.for('AuthService'),
   UserRepository: Symbol.for('UserRepository'),
   ProfileRepository: Symbol.for('ProfileRepository'),
-  ...Repositories,
+};
+
+export const Types = {
+  PrismaClient: Symbol.for('PrismaClient'),
+  AuthTokenGenerator: Symbol.for('AuthTokenGenerator'),
   ...InputValidators,
   ...Hashers,
+  ...HashComparers,
   ...UseCases,
+  ...Repositories,
+  ...Facades,
 };
