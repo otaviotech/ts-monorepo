@@ -2,6 +2,7 @@ import {
   FindProfileByEmailRepository,
   FindProfileByUsernameRepository,
 } from '@data/protocols';
+import { AuthTokenGenerator } from '@data/protocols/authTokenGenerator';
 import { FindUserByProfileIdRepository } from '@data/protocols/findUserByProfileIdRepository';
 import { PasswordHashComparer } from '@data/protocols/passwordHashComparer';
 import { InvalidCredentialsError } from '@domain/errors/invalidCredentials';
@@ -12,7 +13,8 @@ export class SignIn implements SignInUseCase {
     private readonly findProfileByEmailRepository: FindProfileByEmailRepository,
     private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository,
     private readonly findUserByProfileIdRepository: FindUserByProfileIdRepository,
-    private readonly passwordHashComparer: PasswordHashComparer
+    private readonly passwordHashComparer: PasswordHashComparer,
+    private readonly authTokenGenerator: AuthTokenGenerator
   ) {}
 
   async signin(input: SignInUseCaseInput): Promise<string> {
@@ -41,6 +43,6 @@ export class SignIn implements SignInUseCase {
       throw new InvalidCredentialsError();
     }
 
-    return '';
+    return this.authTokenGenerator.generate({ id: user?.id });
   }
 }
