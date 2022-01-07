@@ -1,17 +1,22 @@
 import { InvalidCredentialsError } from '@domain/errors/invalidCredentials';
 import { SignInUseCase, SignInUseCaseInput } from '@domain/usecases/signin';
+import { Types } from '@main/ioc/types';
 import { badRequest } from '@presentation/helpers';
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols';
 import { SignInInputValidator } from '@presentation/validators/signIn';
+import { inject, injectable } from 'inversify';
 
 export interface SignInInput {
   identifier?: string;
   password?: string;
 }
 
+@injectable()
 export class SignInController implements Controller {
   constructor(
+    @inject(Types.SignInInputValidator)
     private readonly signInInputValidator: SignInInputValidator,
+    @inject(Types.SignInUseCase)
     private readonly signInUseCase: SignInUseCase
   ) {}
 
@@ -34,6 +39,7 @@ export class SignInController implements Controller {
         return badRequest(error);
       }
 
+      console.log(error);
       throw error;
     }
   }

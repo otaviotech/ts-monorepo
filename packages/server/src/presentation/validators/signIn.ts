@@ -2,7 +2,9 @@ import * as yup from 'yup';
 import { SignInInput } from '@presentation/controllers/signin';
 import { InputValidationResult, InputValidator } from '@presentation/protocols';
 import { RequestValidationError } from '@presentation/errors/validation';
+import { injectable } from 'inversify';
 
+@injectable()
 export class SignInInputValidator implements InputValidator<SignInInput> {
   async validate(input: SignInInput): Promise<InputValidationResult> {
     const result: InputValidationResult = {

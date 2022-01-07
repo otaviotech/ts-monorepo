@@ -7,13 +7,21 @@ import { FindUserByProfileIdRepository } from '@data/protocols/findUserByProfile
 import { PasswordHashComparer } from '@data/protocols/passwordHashComparer';
 import { InvalidCredentialsError } from '@domain/errors/invalidCredentials';
 import { SignInUseCase, SignInUseCaseInput } from '@domain/usecases/signin';
+import { Types } from '@main/ioc/types';
+import { inject, injectable } from 'inversify';
 
+@injectable()
 export class SignIn implements SignInUseCase {
   constructor(
+    @inject(Types.FindProfileByEmailRepository)
     private readonly findProfileByEmailRepository: FindProfileByEmailRepository,
+    @inject(Types.FindProfileByUsernameRepository)
     private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository,
+    @inject(Types.FindUserByProfileIdRepository)
     private readonly findUserByProfileIdRepository: FindUserByProfileIdRepository,
+    @inject(Types.PasswordHashComparer)
     private readonly passwordHashComparer: PasswordHashComparer,
+    @inject(Types.AuthTokenGenerator)
     private readonly authTokenGenerator: AuthTokenGenerator
   ) {}
 
