@@ -1,35 +1,28 @@
-import {
-  FindProfileByUsernameRepositoryStub,
-  FindProfileByEmailStub,
-  PasswordHasherStub,
-} from '@test/stubs/data/protocols';
+import { PasswordHasherStub } from '@test/stubs/data/protocols';
 import SignUpUseCaseFactory from '@test/factories/domain/usecases/signup';
 import { EmailAlreadyTakenError } from '@domain/errors/emailAlreadyTaken';
 import { UsernameAlreadyTakenError } from '@domain/errors/usernameAlreadyTaken';
 import { UserRepositoryStub } from '@test/stubs/infra/facades/userRepository';
+import { ProfileRepositoryStub } from '@test/stubs/infra/facades/profileRepository';
 import { SignUpUseCase } from './signup';
 
 const makeSut = () => {
   const passwordHasherStub = new PasswordHasherStub();
-  const findProfileByEmailRepoStub = new FindProfileByEmailStub();
-  const findProfileByUsernameRepoStub =
-    new FindProfileByUsernameRepositoryStub();
+  const profileRepositoryStub = new ProfileRepositoryStub();
   const userRepositoryStub = new UserRepositoryStub();
 
   const validInput = SignUpUseCaseFactory.ValidInputFactory.build({});
 
   const sut = new SignUpUseCase(
     passwordHasherStub,
-    findProfileByEmailRepoStub,
-    findProfileByUsernameRepoStub,
+    profileRepositoryStub,
     userRepositoryStub
   );
 
   return {
     sut,
     passwordHasherStub,
-    findProfileByEmailRepoStub,
-    findProfileByUsernameRepoStub,
+    profileRepositoryStub,
     userRepositoryStub,
     validInput,
   };
@@ -40,8 +33,7 @@ describe('SignUpUseCase', () => {
     const {
       sut,
       passwordHasherStub,
-      findProfileByEmailRepoStub,
-      findProfileByUsernameRepoStub,
+      profileRepositoryStub,
       userRepositoryStub,
       validInput,
     } = makeSut();
@@ -51,11 +43,11 @@ describe('SignUpUseCase', () => {
       .mockResolvedValueOnce(undefined);
 
     jest
-      .spyOn(findProfileByEmailRepoStub, 'find')
+      .spyOn(profileRepositoryStub, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
     jest
-      .spyOn(findProfileByUsernameRepoStub, 'find')
+      .spyOn(profileRepositoryStub, 'findByUsername')
       .mockResolvedValueOnce(undefined);
 
     jest.spyOn(passwordHasherStub, 'hash');
@@ -70,8 +62,7 @@ describe('SignUpUseCase', () => {
       sut,
       passwordHasherStub,
       userRepositoryStub,
-      findProfileByEmailRepoStub,
-      findProfileByUsernameRepoStub,
+      profileRepositoryStub,
       validInput,
     } = makeSut();
 
@@ -80,11 +71,11 @@ describe('SignUpUseCase', () => {
       .mockResolvedValueOnce(undefined);
 
     jest
-      .spyOn(findProfileByEmailRepoStub, 'find')
+      .spyOn(profileRepositoryStub, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
     jest
-      .spyOn(findProfileByUsernameRepoStub, 'find')
+      .spyOn(profileRepositoryStub, 'findByUsername')
       .mockResolvedValueOnce(undefined);
 
     jest
@@ -117,7 +108,7 @@ describe('SignUpUseCase', () => {
   });
 
   it("should throw if there's already a profile with the same username", () => {
-    const { sut, userRepositoryStub, findProfileByEmailRepoStub, validInput } =
+    const { sut, userRepositoryStub, profileRepositoryStub, validInput } =
       makeSut();
 
     jest
@@ -125,7 +116,7 @@ describe('SignUpUseCase', () => {
       .mockResolvedValueOnce(undefined);
 
     jest
-      .spyOn(findProfileByEmailRepoStub, 'find')
+      .spyOn(profileRepositoryStub, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
     const promise = sut.signup(validInput);
@@ -134,24 +125,19 @@ describe('SignUpUseCase', () => {
   });
 
   it('should create a user with a profile attached', async () => {
-    const {
-      sut,
-      findProfileByEmailRepoStub,
-      findProfileByUsernameRepoStub,
-      userRepositoryStub,
-      validInput,
-    } = makeSut();
+    const { sut, profileRepositoryStub, userRepositoryStub, validInput } =
+      makeSut();
 
     jest
       .spyOn(userRepositoryStub, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
     jest
-      .spyOn(findProfileByEmailRepoStub, 'find')
+      .spyOn(profileRepositoryStub, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
     jest
-      .spyOn(findProfileByUsernameRepoStub, 'find')
+      .spyOn(profileRepositoryStub, 'findByUsername')
       .mockResolvedValueOnce(undefined);
 
     jest.spyOn(userRepositoryStub, 'createWithProfile');

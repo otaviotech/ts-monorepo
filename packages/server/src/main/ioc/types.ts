@@ -30,6 +30,7 @@ export const Types = {
   PasswordHashComparer: Symbol.for('PasswordHashComparer'),
   AuthService: Symbol.for('AuthService'),
   UserRepository: Symbol.for('UserRepository'),
+  ProfileRepository: Symbol.for('ProfileRepository'),
   ...Repositories,
   ...InputValidators,
   ...Hashers,

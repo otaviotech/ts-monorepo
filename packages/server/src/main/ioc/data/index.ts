@@ -12,7 +12,12 @@ import {
   UserRepository,
   UserRepositoryFacade,
 } from '@infra/facades/userRepository';
+import {
+  ProfileRepository,
+  ProfileRepositoryFacade,
+} from '@infra/facades/profileRepository';
 import { bindDataRepositories } from './repositories';
+
 import { bindUseCases } from './usecases';
 import { bindHashers } from './hashers';
 
@@ -32,6 +37,9 @@ export const bindDataLayer = (container: Container) => {
 
   container.bind<AuthService>(Types.AuthService).to(AuthServiceFacade);
   container.bind<UserRepository>(Types.UserRepository).to(UserRepositoryFacade);
+  container
+    .bind<ProfileRepository>(Types.ProfileRepository)
+    .to(ProfileRepositoryFacade);
 
   container
     .bind<PrismaClient>(Types.PrismaClient)

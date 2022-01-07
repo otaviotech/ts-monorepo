@@ -48,11 +48,11 @@ describe('SignInUseCase', () => {
     } = makeSut();
 
     jest
-      .spyOn(findProfileByEmailRepositoryStub, 'find')
+      .spyOn(findProfileByEmailRepositoryStub, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
     jest
-      .spyOn(findProfileByUsernameRepositoryStub, 'find')
+      .spyOn(findProfileByUsernameRepositoryStub, 'findByUsername')
       .mockResolvedValueOnce(undefined);
 
     const promise = sut.signin(validInput);

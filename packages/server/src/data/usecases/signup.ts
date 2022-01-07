@@ -7,15 +7,12 @@ import { SignUp, SignUpUseCaseInput } from '@domain/usecases/signup';
 import { User } from '@domain/models';
 
 // Data
-import {
-  FindProfileByEmailRepository,
-  FindProfileByUsernameRepository,
-  PasswordHasher,
-} from '@data/protocols';
+import { PasswordHasher } from '@data/protocols';
 
 // Main
 import { Types } from '@main/ioc/types';
 import { UserRepository } from '@infra/facades/userRepository';
+import { ProfileRepository } from '@infra/facades/profileRepository';
 
 @injectable()
 export class SignUpUseCase implements SignUp {
@@ -23,11 +20,8 @@ export class SignUpUseCase implements SignUp {
     @inject(Types.PasswordHasher)
     private readonly passwordHasher: PasswordHasher,
 
-    @inject(Types.FindProfileByEmailRepository)
-    private readonly findProfileByEmailRepository: FindProfileByEmailRepository,
-
-    @inject(Types.FindProfileByUsernameRepository)
-    private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository,
+    @inject(Types.ProfileRepository)
+    private readonly profileRepository: ProfileRepository,
 
     @inject(Types.UserRepository)
     private readonly userRepository: UserRepository
@@ -40,13 +34,13 @@ export class SignUpUseCase implements SignUp {
       throw new EmailAlreadyTakenError();
     }
 
-    let profile = await this.findProfileByEmailRepository.find(input.email);
+    let profile = await this.profileRepository.findByEmail(input.email);
 
     if (profile) {
       throw new EmailAlreadyTakenError();
     }
 
-    profile = await this.findProfileByUsernameRepository.find(input.username);
+    profile = await this.profileRepository.findByUsername(input.username);
 
     if (profile) {
       throw new UsernameAlreadyTakenError();

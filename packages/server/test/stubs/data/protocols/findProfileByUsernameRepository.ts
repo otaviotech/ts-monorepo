@@ -6,7 +6,7 @@ export class FindProfileByUsernameRepositoryStub
   implements FindProfileByUsernameRepository
 {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async find(username: string): Promise<Profile | undefined> {
+  async findByUsername(username: string): Promise<Profile | undefined> {
     return ProfileFactory.build({});
   }
 }

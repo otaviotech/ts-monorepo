@@ -22,7 +22,7 @@ describe('PrismaFindProfileByEmailRepository', () => {
       .spyOn(prismaContext.prisma.profile, 'findFirst')
       .mockResolvedValueOnce({ id: 1 } as PrismaProfile);
 
-    const result = await sut.find(validInput);
+    const result = await sut.findByEmail(validInput);
 
     expect(result?.id).toBe(1);
   });
@@ -34,7 +34,7 @@ describe('PrismaFindProfileByEmailRepository', () => {
       .spyOn(prismaContext.prisma.profile, 'findFirst')
       .mockResolvedValueOnce(null);
 
-    const result = await sut.find(validInput);
+    const result = await sut.findByEmail(validInput);
 
     expect(result).toBeUndefined();
   });

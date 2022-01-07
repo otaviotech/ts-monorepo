@@ -23,12 +23,12 @@ export class SignInUseCase implements SignIn {
   ) {}
 
   async signin(input: SignInUseCaseInput): Promise<string> {
-    let profile = await this.findProfileByEmailRepository.find(
+    let profile = await this.findProfileByEmailRepository.findByEmail(
       input.identifier
     );
 
     if (!profile) {
-      profile = await this.findProfileByUsernameRepository.find(
+      profile = await this.findProfileByUsernameRepository.findByUsername(
         input.identifier
       );
     }

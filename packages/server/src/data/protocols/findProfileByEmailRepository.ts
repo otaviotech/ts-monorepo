@@ -1,5 +1,5 @@
 import { Profile } from '../../domain/models/profile';
 
 export interface FindProfileByEmailRepository {
-  find(email: string): Promise<Profile | undefined>;
+  findByEmail(email: string): Promise<Profile | undefined>;
 }
