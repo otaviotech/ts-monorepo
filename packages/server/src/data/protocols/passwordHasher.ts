@@ -1,3 +1,3 @@
 export interface PasswordHasher {
-  hash(password: string): Promise<string>;
+  hashPassword(password: string): Promise<string>;
 }

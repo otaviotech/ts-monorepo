@@ -5,17 +5,17 @@ import { PasswordHashComparerStub } from '@test/stubs/data/protocols/passwordHas
 
 export class AuthServiceStub implements AuthService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  hash(password: string): Promise<string> {
-    return new PasswordHasherStub().hash('');
+  hashPassword(password: string): Promise<string> {
+    return new PasswordHasherStub().hashPassword('');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  compare(left: string, right: string): Promise<boolean> {
-    return new PasswordHashComparerStub().compare('', '');
+  comparePasswords(left: string, right: string): Promise<boolean> {
+    return new PasswordHashComparerStub().comparePasswords('', '');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  generate(payload: any): Promise<string> {
-    return new AuthTokenGeneratorStub().generate({});
+  generateAuthToken(payload: any): Promise<string> {
+    return new AuthTokenGeneratorStub().generateAuthToken({});
   }
 }

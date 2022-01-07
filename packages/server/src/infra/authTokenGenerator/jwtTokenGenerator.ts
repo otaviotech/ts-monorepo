@@ -6,7 +6,7 @@ import { injectable } from 'inversify';
 export class JwtTokenGenerator implements AuthTokenGenerator {
   constructor(private readonly secret: string) {}
 
-  async generate(payload: any): Promise<string> {
+  async generateAuthToken(payload: any): Promise<string> {
     return new Promise((resolve) => {
       jwt.sign(payload, this.secret, {}, (err, token) => {
         if (err) {

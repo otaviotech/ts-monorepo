@@ -1,3 +1,3 @@
 export interface AuthTokenGenerator {
-  generate(payload: any): Promise<string>;
+  generateAuthToken(payload: any): Promise<string>;
 }

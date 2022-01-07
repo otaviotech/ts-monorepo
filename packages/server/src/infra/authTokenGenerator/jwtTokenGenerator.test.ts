@@ -18,7 +18,7 @@ describe('JwtTokenGenerator', () => {
       .spyOn(jwt, 'sign')
       .mockImplementationOnce((a, b, c, cb) => cb(null, JWT_RESULT));
 
-    const result = await sut.generate(validInput);
+    const result = await sut.generateAuthToken(validInput);
 
     expect(result).toBe(JWT_RESULT);
   });
@@ -32,7 +32,7 @@ describe('JwtTokenGenerator', () => {
       throw errorThrown;
     });
 
-    const promise = sut.generate(validInput);
+    const promise = sut.generateAuthToken(validInput);
 
     expect(promise).rejects.toThrow(errorThrown);
   });
@@ -46,7 +46,7 @@ describe('JwtTokenGenerator', () => {
       .spyOn(jwt, 'sign')
       .mockImplementationOnce((a, b, c, cb) => cb(errorThrown, undefined));
 
-    const promise = sut.generate(validInput);
+    const promise = sut.generateAuthToken(validInput);
 
     expect(promise).rejects.toThrow(errorThrown);
   });

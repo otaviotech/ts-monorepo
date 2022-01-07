@@ -69,11 +69,13 @@ describe('SignInUseCase', () => {
       .spyOn(userRepositoryStub, 'findByProfileId')
       .mockResolvedValueOnce({ id: 1, password: dbPassword } as User);
 
-    jest.spyOn(authServiceStub, 'compare').mockResolvedValueOnce(false);
+    jest
+      .spyOn(authServiceStub, 'comparePasswords')
+      .mockResolvedValueOnce(false);
 
     sut.signin(validInput).catch((error) => {
       expect(error).toEqual(new InvalidCredentialsError());
-      expect(authServiceStub.compare).toHaveBeenCalledWith(
+      expect(authServiceStub.comparePasswords).toHaveBeenCalledWith(
         validInput.password,
         dbPassword
       );
@@ -88,11 +90,11 @@ describe('SignInUseCase', () => {
       .spyOn(userRepositoryStub, 'findByProfileId')
       .mockResolvedValueOnce(user);
 
-    jest.spyOn(authServiceStub, 'generate');
+    jest.spyOn(authServiceStub, 'generateAuthToken');
 
     const result = await sut.signin(validInput);
 
-    expect(authServiceStub.generate).toHaveBeenCalledWith(user);
+    expect(authServiceStub.generateAuthToken).toHaveBeenCalledWith(user);
 
     expect(result).toEqual('A.JWT.TOKEN');
   });

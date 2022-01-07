@@ -39,7 +39,7 @@ export class SignInUseCase implements SignIn {
 
     const user = await this.userRepository.findByProfileId(profile.id);
 
-    const passwordsMatch = await this.authService.compare(
+    const passwordsMatch = await this.authService.comparePasswords(
       input.password,
       user?.password || ''
     );
@@ -48,6 +48,6 @@ export class SignInUseCase implements SignIn {
       throw new InvalidCredentialsError();
     }
 
-    return this.authService.generate({ id: user?.id });
+    return this.authService.generateAuthToken({ id: user?.id });
   }
 }

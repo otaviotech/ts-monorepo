@@ -46,7 +46,9 @@ export class SignUpUseCase implements SignUp {
       throw new UsernameAlreadyTakenError();
     }
 
-    const hashedPassword = await this.passwordHasher.hash(input.password);
+    const hashedPassword = await this.passwordHasher.hashPassword(
+      input.password
+    );
 
     const payload: SignUpUseCaseInput = {
       ...input,

@@ -50,11 +50,13 @@ describe('SignUpUseCase', () => {
       .spyOn(profileRepositoryStub, 'findByUsername')
       .mockResolvedValueOnce(undefined);
 
-    jest.spyOn(passwordHasherStub, 'hash');
+    jest.spyOn(passwordHasherStub, 'hashPassword');
 
     await sut.signup(validInput);
 
-    expect(passwordHasherStub.hash).toHaveBeenCalledWith(validInput.password);
+    expect(passwordHasherStub.hashPassword).toHaveBeenCalledWith(
+      validInput.password
+    );
   });
 
   it('should throw if the password hasher throws', async () => {
@@ -79,7 +81,7 @@ describe('SignUpUseCase', () => {
       .mockResolvedValueOnce(undefined);
 
     jest
-      .spyOn(passwordHasherStub, 'hash')
+      .spyOn(passwordHasherStub, 'hashPassword')
       .mockRejectedValueOnce(new Error('ERROR'));
 
     const promise = sut.signup(validInput);

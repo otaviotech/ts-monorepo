@@ -21,7 +21,7 @@ describe('PasswordHasherBcryptAdapter', () => {
 
     jest.spyOn(bcrypt, 'hash').mockImplementationOnce(() => expected);
 
-    const hash = await sut.hash(validInput);
+    const hash = await sut.hashPassword(validInput);
 
     expect(bcrypt.hash).toHaveBeenCalledWith(validInput, SALT);
     expect(hash).toBe(expected);
@@ -36,7 +36,7 @@ describe('PasswordHasherBcryptAdapter', () => {
       throw expected;
     });
 
-    const promise = sut.hash(validInput);
+    const promise = sut.hashPassword(validInput);
 
     expect(promise).rejects.toThrow(expected);
   });

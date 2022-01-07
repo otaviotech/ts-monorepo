@@ -15,7 +15,7 @@ describe('BcryptPasswordHashComparer', () => {
     // @ts-ignore
     jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(true);
 
-    const result = await sut.compare('abc', 'hashed_abc');
+    const result = await sut.comparePasswords('abc', 'hashed_abc');
 
     expect(bcrypt.compare).toHaveBeenCalledWith('abc', 'hashed_abc');
 
@@ -33,7 +33,7 @@ describe('BcryptPasswordHashComparer', () => {
       throw errorThrown;
     });
 
-    const promise = sut.compare('abc', 'hashed_abc');
+    const promise = sut.comparePasswords('abc', 'hashed_abc');
 
     expect(promise).rejects.toThrow(errorThrown);
   });

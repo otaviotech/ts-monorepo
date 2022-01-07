@@ -20,15 +20,15 @@ export class AuthServiceFacade implements AuthService {
     private readonly authTokenGenerator: AuthTokenGenerator
   ) {}
 
-  async generate(payload: any): Promise<string> {
-    return this.authTokenGenerator.generate(payload);
+  async generateAuthToken(payload: any): Promise<string> {
+    return this.authTokenGenerator.generateAuthToken(payload);
   }
 
-  async hash(password: string): Promise<string> {
-    return this.passwordHasher.hash(password);
+  async hashPassword(password: string): Promise<string> {
+    return this.passwordHasher.hashPassword(password);
   }
 
-  async compare(left: string, right: string): Promise<boolean> {
-    return this.passwordHashComparer.compare(left, right);
+  async comparePasswords(left: string, right: string): Promise<boolean> {
+    return this.passwordHashComparer.comparePasswords(left, right);
   }
 }
