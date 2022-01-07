@@ -1,6 +1,7 @@
 import { Controller, HttpRequest } from '@presentation/protocols';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { appLogger } from '../middlewares/logger';
 
 export const adapt =
   (controller: Controller) =>
@@ -17,6 +18,7 @@ export const adapt =
       return expressRes.status(statusCode).json(resBody);
     } catch (err) {
       // LOG!
+      appLogger.error(err);
       return expressRes.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
   };
