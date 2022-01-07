@@ -33,21 +33,23 @@ const format = winston.format.combine(
   )
 );
 
+const sentryTransports = ['warn', 'error'].map(
+  (logLevel) =>
+    new SentryTransport({
+      sentry: {
+        dsn: process.env.SENTRY_DSN,
+      },
+      level: logLevel,
+    })
+);
+
 const transports = [
   new winston.transports.Console(),
   new winston.transports.File({
     filename: 'logs/error.log',
     level: 'error',
   }),
-  new winston.transports.File({
-    filename: 'logs/all.log',
-  }),
-  new SentryTransport({
-    sentry: {
-      dsn: process.env.SENTRY_DSN,
-    },
-    level: 'error',
-  }),
+  ...sentryTransports,
 ];
 
 export const winstonLogger = winston.createLogger({
