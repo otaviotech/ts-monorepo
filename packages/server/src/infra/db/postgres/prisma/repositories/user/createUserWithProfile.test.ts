@@ -27,7 +27,7 @@ describe('PrismaCreateUserWithProfile', () => {
       .spyOn(prismaContext.prisma.user, 'create')
       .mockResolvedValueOnce({ id: 1 } as PrismaUser);
 
-    const result = await sut.create(validInput);
+    const result = await sut.createWithProfile(validInput);
 
     expect(result.id).toBe(1);
   });

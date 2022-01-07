@@ -16,7 +16,7 @@ export class PrismaFindUserByProfileIdRepository
     @inject(Types.PrismaClient) private readonly prisma: PrismaClient
   ) {}
 
-  async find(id: number): Promise<User | undefined> {
+  async findByProfileId(id: number): Promise<User | undefined> {
     const prismaUser = await this.prisma.user.findFirst({
       where: { id },
     });

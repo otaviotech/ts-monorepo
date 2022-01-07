@@ -8,6 +8,10 @@ import { JwtTokenGenerator } from '@infra/authTokenGenerator/jwtTokenGenerator';
 import { PasswordHashComparer } from '@data/protocols/passwordHashComparer';
 import { BcryptPasswordHashComparer } from '@infra/passwordHashComparer/bcryptPasswordHashComparer';
 import { AuthService, AuthServiceFacade } from '@infra/facades/authService';
+import {
+  UserRepository,
+  UserRepositoryFacade,
+} from '@infra/facades/userRepository';
 import { bindDataRepositories } from './repositories';
 import { bindUseCases } from './usecases';
 import { bindHashers } from './hashers';
@@ -27,6 +31,7 @@ export const bindDataLayer = (container: Container) => {
     .to(BcryptPasswordHashComparer);
 
   container.bind<AuthService>(Types.AuthService).to(AuthServiceFacade);
+  container.bind<UserRepository>(Types.UserRepository).to(UserRepositoryFacade);
 
   container
     .bind<PrismaClient>(Types.PrismaClient)

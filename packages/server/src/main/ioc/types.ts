@@ -29,6 +29,7 @@ export const Types = {
   AuthTokenGenerator: Symbol.for('AuthTokenGenerator'),
   PasswordHashComparer: Symbol.for('PasswordHashComparer'),
   AuthService: Symbol.for('AuthService'),
+  UserRepository: Symbol.for('UserRepository'),
   ...Repositories,
   ...InputValidators,
   ...Hashers,

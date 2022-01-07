@@ -1,5 +1,5 @@
 import { User } from '@domain/models';
 
 export interface FindUserByProfileIdRepository {
-  find(profileId: number): Promise<User | undefined>;
+  findByProfileId(profileId: number): Promise<User | undefined>;
 }

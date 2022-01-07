@@ -16,7 +16,7 @@ export class PrismaFindUserByEmailRepository
     @inject(Types.PrismaClient) private readonly prisma: PrismaClient
   ) {}
 
-  async find(email: string): Promise<User | undefined> {
+  async findByEmail(email: string): Promise<User | undefined> {
     const prismaUser = await this.prisma.user.findFirst({
       where: { email },
     });

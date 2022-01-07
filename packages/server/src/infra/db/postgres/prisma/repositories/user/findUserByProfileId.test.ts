@@ -22,7 +22,7 @@ describe('PrismaFindUserByProfileIdRepository', () => {
       .spyOn(prismaContext.prisma.user, 'findFirst')
       .mockResolvedValueOnce({ id: 1 } as PrismaUser);
 
-    const result = await sut.find(validInput);
+    const result = await sut.findByProfileId(validInput);
 
     expect(result?.id).toBe(1);
   });
@@ -34,7 +34,7 @@ describe('PrismaFindUserByProfileIdRepository', () => {
       .spyOn(prismaContext.prisma.user, 'findFirst')
       .mockResolvedValueOnce(null);
 
-    const result = await sut.find(validInput);
+    const result = await sut.findByProfileId(validInput);
 
     expect(result).toBeUndefined();
   });

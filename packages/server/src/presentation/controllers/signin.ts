@@ -39,7 +39,6 @@ export class SignInController implements Controller {
         return badRequest(error);
       }
 
-      console.log(error);
       throw error;
     }
   }

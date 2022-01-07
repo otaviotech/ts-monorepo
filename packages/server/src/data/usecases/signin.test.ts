@@ -5,8 +5,8 @@ import {
   FindProfileByEmailStub,
   FindProfileByUsernameRepositoryStub,
 } from '@test/stubs/data/protocols';
-import { FindUserByProfileIdRepositoryStub } from '@test/stubs/data/protocols/findUserByProfileIdRepository';
 import { AuthServiceStub } from '@test/stubs/infra/facades/authService';
+import { UserRepositoryStub } from '@test/stubs/infra/facades/userRepository';
 import { SignInUseCase } from './signin';
 
 describe('SignInUseCase', () => {
@@ -14,14 +14,13 @@ describe('SignInUseCase', () => {
     const findProfileByEmailRepositoryStub = new FindProfileByEmailStub();
     const findProfileByUsernameRepositoryStub =
       new FindProfileByUsernameRepositoryStub();
-    const findUserByProfileIdRepositoryStub =
-      new FindUserByProfileIdRepositoryStub();
+    const userRepositoryStub = new UserRepositoryStub();
     const authServiceStub = new AuthServiceStub();
 
     const sut = new SignInUseCase(
       findProfileByEmailRepositoryStub,
       findProfileByUsernameRepositoryStub,
-      findUserByProfileIdRepositoryStub,
+      userRepositoryStub,
       authServiceStub
     );
 
@@ -34,7 +33,7 @@ describe('SignInUseCase', () => {
       sut,
       findProfileByEmailRepositoryStub,
       findProfileByUsernameRepositoryStub,
-      findUserByProfileIdRepositoryStub,
+      userRepositoryStub,
       authServiceStub,
       validInput,
     };
@@ -62,17 +61,12 @@ describe('SignInUseCase', () => {
   });
 
   it("should throw if the passwords don't match", async () => {
-    const {
-      sut,
-      findUserByProfileIdRepositoryStub,
-      authServiceStub,
-      validInput,
-    } = makeSut();
+    const { sut, userRepositoryStub, authServiceStub, validInput } = makeSut();
 
     const dbPassword = 'any password';
 
     jest
-      .spyOn(findUserByProfileIdRepositoryStub, 'find')
+      .spyOn(userRepositoryStub, 'findByProfileId')
       .mockResolvedValueOnce({ id: 1, password: dbPassword } as User);
 
     jest.spyOn(authServiceStub, 'compare').mockResolvedValueOnce(false);
@@ -87,16 +81,11 @@ describe('SignInUseCase', () => {
   });
 
   it("should generate(and return) a jwt token using the user's id", async () => {
-    const {
-      sut,
-      findUserByProfileIdRepositoryStub,
-      authServiceStub,
-      validInput,
-    } = makeSut();
+    const { sut, userRepositoryStub, authServiceStub, validInput } = makeSut();
 
     const user = { id: 1 } as User;
     jest
-      .spyOn(findUserByProfileIdRepositoryStub, 'find')
+      .spyOn(userRepositoryStub, 'findByProfileId')
       .mockResolvedValueOnce(user);
 
     jest.spyOn(authServiceStub, 'generate');

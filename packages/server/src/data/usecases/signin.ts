@@ -2,10 +2,10 @@ import {
   FindProfileByEmailRepository,
   FindProfileByUsernameRepository,
 } from '@data/protocols';
-import { FindUserByProfileIdRepository } from '@data/protocols/findUserByProfileIdRepository';
 import { InvalidCredentialsError } from '@domain/errors/invalidCredentials';
 import { SignIn, SignInUseCaseInput } from '@domain/usecases/signin';
 import { AuthService } from '@infra/facades/authService';
+import { UserRepository } from '@infra/facades/userRepository';
 import { Types } from '@main/ioc/types';
 import { inject, injectable } from 'inversify';
 
@@ -17,7 +17,7 @@ export class SignInUseCase implements SignIn {
     @inject(Types.FindProfileByUsernameRepository)
     private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository,
     @inject(Types.FindUserByProfileIdRepository)
-    private readonly findUserByProfileIdRepository: FindUserByProfileIdRepository,
+    private readonly userRepository: UserRepository,
     @inject(Types.AuthService)
     private readonly authService: AuthService
   ) {}
@@ -37,7 +37,7 @@ export class SignInUseCase implements SignIn {
       throw new InvalidCredentialsError();
     }
 
-    const user = await this.findUserByProfileIdRepository.find(profile.id);
+    const user = await this.userRepository.findByProfileId(profile.id);
 
     const passwordsMatch = await this.authService.compare(
       input.password,

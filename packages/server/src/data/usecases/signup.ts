@@ -8,15 +8,14 @@ import { User } from '@domain/models';
 
 // Data
 import {
-  CreateUserWithProfileRepository,
   FindProfileByEmailRepository,
   FindProfileByUsernameRepository,
-  FindUserByEmailRepository,
   PasswordHasher,
 } from '@data/protocols';
 
 // Main
 import { Types } from '@main/ioc/types';
+import { UserRepository } from '@infra/facades/userRepository';
 
 @injectable()
 export class SignUpUseCase implements SignUp {
@@ -24,21 +23,18 @@ export class SignUpUseCase implements SignUp {
     @inject(Types.PasswordHasher)
     private readonly passwordHasher: PasswordHasher,
 
-    @inject(Types.FindUserByEmailRepository)
-    private readonly findUserByEmailRepository: FindUserByEmailRepository,
-
     @inject(Types.FindProfileByEmailRepository)
     private readonly findProfileByEmailRepository: FindProfileByEmailRepository,
 
     @inject(Types.FindProfileByUsernameRepository)
     private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository,
 
-    @inject(Types.CreateUserWithProfileRepository)
-    private readonly createUserWithProfileRepository: CreateUserWithProfileRepository
+    @inject(Types.UserRepository)
+    private readonly userRepository: UserRepository
   ) {}
 
   async signup(input: SignUpUseCaseInput): Promise<User> {
-    const user = await this.findUserByEmailRepository.find(input.email);
+    const user = await this.userRepository.findByEmail(input.email);
 
     if (user) {
       throw new EmailAlreadyTakenError();
@@ -63,6 +59,6 @@ export class SignUpUseCase implements SignUp {
       password: hashedPassword,
     };
 
-    return this.createUserWithProfileRepository.create(payload);
+    return this.userRepository.createWithProfile(payload);
   }
 }

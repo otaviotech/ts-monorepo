@@ -17,7 +17,7 @@ export class PrismaCreateUserWithProfileRepository
     @inject(Types.PrismaClient) private readonly prismaClient: PrismaClient
   ) {}
 
-  async create(input: SignUpUseCaseInput): Promise<User> {
+  async createWithProfile(input: SignUpUseCaseInput): Promise<User> {
     const payload: Prisma.UserCreateInput = {
       email: input.email,
       password: input.password,
