@@ -2,11 +2,10 @@ import {
   FindProfileByEmailRepository,
   FindProfileByUsernameRepository,
 } from '@data/protocols';
-import { AuthTokenGenerator } from '@data/protocols/authTokenGenerator';
 import { FindUserByProfileIdRepository } from '@data/protocols/findUserByProfileIdRepository';
-import { PasswordHashComparer } from '@data/protocols/passwordHashComparer';
 import { InvalidCredentialsError } from '@domain/errors/invalidCredentials';
 import { SignIn, SignInUseCaseInput } from '@domain/usecases/signin';
+import { AuthService } from '@infra/facades/authService';
 import { Types } from '@main/ioc/types';
 import { inject, injectable } from 'inversify';
 
@@ -19,10 +18,8 @@ export class SignInUseCase implements SignIn {
     private readonly findProfileByUsernameRepository: FindProfileByUsernameRepository,
     @inject(Types.FindUserByProfileIdRepository)
     private readonly findUserByProfileIdRepository: FindUserByProfileIdRepository,
-    @inject(Types.PasswordHashComparer)
-    private readonly passwordHashComparer: PasswordHashComparer,
-    @inject(Types.AuthTokenGenerator)
-    private readonly authTokenGenerator: AuthTokenGenerator
+    @inject(Types.AuthService)
+    private readonly authService: AuthService
   ) {}
 
   async signin(input: SignInUseCaseInput): Promise<string> {
@@ -42,7 +39,7 @@ export class SignInUseCase implements SignIn {
 
     const user = await this.findUserByProfileIdRepository.find(profile.id);
 
-    const passwordsMatch = await this.passwordHashComparer.compare(
+    const passwordsMatch = await this.authService.compare(
       input.password,
       user?.password || ''
     );
@@ -51,6 +48,6 @@ export class SignInUseCase implements SignIn {
       throw new InvalidCredentialsError();
     }
 
-    return this.authTokenGenerator.generate({ id: user?.id });
+    return this.authService.generate({ id: user?.id });
   }
 }

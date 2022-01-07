@@ -28,6 +28,7 @@ export const Types = {
   PrismaClient: Symbol.for('PrismaClient'),
   AuthTokenGenerator: Symbol.for('AuthTokenGenerator'),
   PasswordHashComparer: Symbol.for('PasswordHashComparer'),
+  AuthService: Symbol.for('AuthService'),
   ...Repositories,
   ...InputValidators,
   ...Hashers,

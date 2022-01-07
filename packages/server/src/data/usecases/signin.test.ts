@@ -5,9 +5,8 @@ import {
   FindProfileByEmailStub,
   FindProfileByUsernameRepositoryStub,
 } from '@test/stubs/data/protocols';
-import { AuthTokenGeneratorStub } from '@test/stubs/data/protocols/authTokenGenerator';
 import { FindUserByProfileIdRepositoryStub } from '@test/stubs/data/protocols/findUserByProfileIdRepository';
-import { PasswordHashComparerStub } from '@test/stubs/data/protocols/passwordHashComparer';
+import { AuthServiceStub } from '@test/stubs/infra/facades/authService';
 import { SignInUseCase } from './signin';
 
 describe('SignInUseCase', () => {
@@ -17,15 +16,13 @@ describe('SignInUseCase', () => {
       new FindProfileByUsernameRepositoryStub();
     const findUserByProfileIdRepositoryStub =
       new FindUserByProfileIdRepositoryStub();
-    const passwordHashComparerStub = new PasswordHashComparerStub();
-    const authTokenGeneratorStub = new AuthTokenGeneratorStub();
+    const authServiceStub = new AuthServiceStub();
 
     const sut = new SignInUseCase(
       findProfileByEmailRepositoryStub,
       findProfileByUsernameRepositoryStub,
       findUserByProfileIdRepositoryStub,
-      passwordHashComparerStub,
-      authTokenGeneratorStub
+      authServiceStub
     );
 
     const validInput: SignInUseCaseInput = {
@@ -38,8 +35,7 @@ describe('SignInUseCase', () => {
       findProfileByEmailRepositoryStub,
       findProfileByUsernameRepositoryStub,
       findUserByProfileIdRepositoryStub,
-      passwordHashComparerStub,
-      authTokenGeneratorStub,
+      authServiceStub,
       validInput,
     };
   };
@@ -68,8 +64,8 @@ describe('SignInUseCase', () => {
   it("should throw if the passwords don't match", async () => {
     const {
       sut,
-      passwordHashComparerStub,
       findUserByProfileIdRepositoryStub,
+      authServiceStub,
       validInput,
     } = makeSut();
 
@@ -79,13 +75,11 @@ describe('SignInUseCase', () => {
       .spyOn(findUserByProfileIdRepositoryStub, 'find')
       .mockResolvedValueOnce({ id: 1, password: dbPassword } as User);
 
-    jest
-      .spyOn(passwordHashComparerStub, 'compare')
-      .mockResolvedValueOnce(false);
+    jest.spyOn(authServiceStub, 'compare').mockResolvedValueOnce(false);
 
     sut.signin(validInput).catch((error) => {
       expect(error).toEqual(new InvalidCredentialsError());
-      expect(passwordHashComparerStub.compare).toHaveBeenCalledWith(
+      expect(authServiceStub.compare).toHaveBeenCalledWith(
         validInput.password,
         dbPassword
       );
@@ -96,7 +90,7 @@ describe('SignInUseCase', () => {
     const {
       sut,
       findUserByProfileIdRepositoryStub,
-      authTokenGeneratorStub,
+      authServiceStub,
       validInput,
     } = makeSut();
 
@@ -105,11 +99,11 @@ describe('SignInUseCase', () => {
       .spyOn(findUserByProfileIdRepositoryStub, 'find')
       .mockResolvedValueOnce(user);
 
-    jest.spyOn(authTokenGeneratorStub, 'generate');
+    jest.spyOn(authServiceStub, 'generate');
 
     const result = await sut.signin(validInput);
 
-    expect(authTokenGeneratorStub.generate).toHaveBeenCalledWith(user);
+    expect(authServiceStub.generate).toHaveBeenCalledWith(user);
 
     expect(result).toEqual('A.JWT.TOKEN');
   });

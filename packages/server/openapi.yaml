@@ -95,3 +95,33 @@ paths:
                         type: string
                         description: The details of the error.
                         example: Something went wrong.
+
+  /auth/signin:
+    post:
+      summary: Login
+      description: Logs a user in.
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: string
+                  description: The email or username from profile or user.
+                password:
+                  type: string
+                  description: The user's password.
+              required: [identifier, password]
+            examples:
+              with_email:
+                value:
+                  identifier: johndoe@email.com
+                  password: strongpassword!
+              with_username:
+                value:
+                  identifier: jdoe
+                  password: strongpassword!
+      responses: {}
