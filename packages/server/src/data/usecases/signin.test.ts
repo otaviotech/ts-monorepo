@@ -5,6 +5,7 @@ import {
   FindProfileByEmailStub,
   FindProfileByUsernameRepositoryStub,
 } from '@test/stubs/data/protocols';
+import { AuthTokenGeneratorStub } from '@test/stubs/data/protocols/authTokenGenerator';
 import { FindUserByProfileIdRepositoryStub } from '@test/stubs/data/protocols/findUserByProfileIdRepository';
 import { PasswordHashComparerStub } from '@test/stubs/data/protocols/passwordHashComparer';
 import { SignIn } from './signin';
@@ -17,12 +18,14 @@ describe('SignInUseCase', () => {
     const findUserByProfileIdRepositoryStub =
       new FindUserByProfileIdRepositoryStub();
     const passwordHashComparerStub = new PasswordHashComparerStub();
+    const authTokenGeneratorStub = new AuthTokenGeneratorStub();
 
     const sut = new SignIn(
       findProfileByEmailRepositoryStub,
       findProfileByUsernameRepositoryStub,
       findUserByProfileIdRepositoryStub,
-      passwordHashComparerStub
+      passwordHashComparerStub,
+      authTokenGeneratorStub
     );
 
     const validInput: SignInUseCaseInput = {
@@ -36,6 +39,7 @@ describe('SignInUseCase', () => {
       findProfileByUsernameRepositoryStub,
       findUserByProfileIdRepositoryStub,
       passwordHashComparerStub,
+      authTokenGeneratorStub,
       validInput,
     };
   };
@@ -86,12 +90,27 @@ describe('SignInUseCase', () => {
         dbPassword
       );
     });
+  });
 
-    // expect(passwordHashComparerStub.compare).toHaveBeenCalledWith(
-    //   validInput.password,
-    //   expect.any('')
-    // );
+  it("should generate(and return) a jwt token using the user's id", async () => {
+    const {
+      sut,
+      findUserByProfileIdRepositoryStub,
+      authTokenGeneratorStub,
+      validInput,
+    } = makeSut();
 
-    // expect(promise).rejects.toThrow(new InvalidCredentialsError());
+    const user = { id: 1 } as User;
+    jest
+      .spyOn(findUserByProfileIdRepositoryStub, 'find')
+      .mockResolvedValueOnce(user);
+
+    jest.spyOn(authTokenGeneratorStub, 'generate');
+
+    const result = await sut.signin(validInput);
+
+    expect(authTokenGeneratorStub.generate).toHaveBeenCalledWith(user);
+
+    expect(result).toEqual('A.JWT.TOKEN');
   });
 });
