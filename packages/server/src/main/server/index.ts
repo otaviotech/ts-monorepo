@@ -1,16 +1,15 @@
+import '../../../root';
 import 'reflect-metadata';
-import dotenv from 'dotenv';
+import { AppEnv } from '@main/env';
 import app from './app';
 import { appLogger } from './middlewares/logger';
-
-dotenv.config();
 
 process.on('uncaughtException', (err) => {
   appLogger.error(err);
   process.exit(1);
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(AppEnv.PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server listening at port: ${process.env.PORT}`);
+  appLogger.info(`Server listening at port: ${AppEnv.PORT}`);
 });

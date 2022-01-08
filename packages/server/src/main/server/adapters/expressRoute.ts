@@ -1,7 +1,32 @@
-import { Controller, HttpRequest } from '@presentation/protocols';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import R from 'ramda';
+import { Controller, HttpRequest } from '@presentation/protocols';
 import { appLogger } from '../middlewares/logger';
+
+const adaptRequestForLogging = (expressReq: Request) => ({
+  ...R.pick(
+    [
+      'headers',
+      'method',
+      'url',
+      'httpVersion',
+      'body',
+      'cookies',
+      'path',
+      'protocol',
+      'query',
+      'hostname',
+      'ip',
+      'params',
+    ],
+    expressReq
+  ),
+});
+
+const adaptLogTags = (expressReq: Request) => ({
+  userAgent: expressReq.headers['user-agent'],
+});
 
 export const adapt =
   (controller: Controller) =>
@@ -17,8 +42,10 @@ export const adapt =
 
       return expressRes.status(statusCode).json(resBody);
     } catch (err) {
-      // LOG!
-      appLogger.error(err);
+      appLogger.error(err, {
+        request: adaptRequestForLogging(expressReq),
+        tags: adaptLogTags(expressReq),
+      });
       return expressRes.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
   };

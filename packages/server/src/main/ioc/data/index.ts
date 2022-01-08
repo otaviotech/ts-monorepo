@@ -16,6 +16,7 @@ import {
   ProfileRepository,
   ProfileRepositoryFacade,
 } from '@infra/facades/profileRepository';
+import { AppEnv } from '@main/env';
 import { bindDataRepositories } from './repositories';
 
 import { bindUseCases } from './usecases';
@@ -29,7 +30,7 @@ export const bindDataLayer = (container: Container) => {
   container
     .bind<AuthTokenGenerator>(Types.AuthTokenGenerator)
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    .toConstantValue(new JwtTokenGenerator(process.env.AUTH_SECRET!));
+    .toConstantValue(new JwtTokenGenerator(AppEnv.AUTH_SECRET!));
 
   container
     .bind<PasswordHashComparer>(Types.PasswordHashComparer)

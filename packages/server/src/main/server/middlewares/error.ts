@@ -7,7 +7,6 @@ export const errorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log('ERRORR');
   appLogger.error(error);
   res.sendStatus(500);
   next();

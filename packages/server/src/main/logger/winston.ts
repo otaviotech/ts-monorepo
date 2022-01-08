@@ -1,43 +1,19 @@
+import { AppEnv } from '@main/env';
+import { RewriteFrames } from '@sentry/integrations';
 import winston from 'winston';
 import SentryTransport from 'winston-transport-sentry-node';
-
-const levels = {
-  error: 0,
-  warn: 1,
-  info: 2,
-  http: 3,
-  debug: 4,
-};
-
-const level = () => {
-  const env = process.env.NODE_ENV || 'development';
-  const isDevelopment = env === 'development';
-  return isDevelopment ? 'debug' : 'warn';
-};
-
-const colors = {
-  error: 'red',
-  warn: 'yellow',
-  info: 'green',
-  http: 'magenta',
-  debug: 'white',
-};
-
-winston.addColors(colors);
-
-const format = winston.format.combine(
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-  winston.format.colorize({ all: true }),
-  winston.format.printf(
-    (info) => `${info.timestamp} ${info.level}: ${info.message}`
-  )
-);
 
 const sentryTransports = ['warn', 'error'].map(
   (logLevel) =>
     new SentryTransport({
       sentry: {
-        dsn: process.env.SENTRY_DSN,
+        dsn: AppEnv.SENTRY_DSN,
+        release: '0.0.0',
+        integrations: [
+          new RewriteFrames({
+            root: AppEnv.PROJECT_ROOT,
+          }),
+        ],
       },
       level: logLevel,
     })
@@ -52,9 +28,38 @@ const transports = [
   ...sentryTransports,
 ];
 
+function prodFormat() {
+  const replaceError = ({ label, level, message, stack }) => ({
+    label,
+    level,
+    message,
+    stack,
+  });
+  const replacer = (key, value) =>
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    value instanceof Error ? replaceError(value) : value;
+  return winston.format.combine(
+    winston.format.errors({ stack: true, message: true }),
+    winston.format.json({ replacer })
+  );
+}
+
+function devFormat() {
+  const formatMessage = (info) => `${info.level} ${info.message}`;
+  const formatError = (info) =>
+    `${info.level} ${info.message}\n\n${info.stack}\n`;
+  const format = (info) =>
+    info instanceof Error ? formatError(info) : formatMessage(info);
+  return winston.format.combine(
+    winston.format.colorize(),
+    winston.format.printf(format)
+  );
+}
+
 export const winstonLogger = winston.createLogger({
-  level: level(),
-  levels,
-  format,
+  level: 'debug',
+  exitOnError: false,
   transports,
+  format: AppEnv.NODE_ENV === 'production' ? prodFormat() : devFormat(),
 });
