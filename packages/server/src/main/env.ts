@@ -10,5 +10,5 @@ export const AppEnv = {
   PORT: process.env.PORT,
   AUTH_SECRET: process.env.AUTH_SECRET,
   SENTRY_DSN: process.env.SENTRY_DSN,
-  NODE_ENV: process.env.NODE_ENV,
+  NODE_ENV: process.env.NODE_ENV || 'development',
 };

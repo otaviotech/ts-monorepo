@@ -1,14 +1,17 @@
-import { AppEnv } from '@main/env';
 import { RewriteFrames } from '@sentry/integrations';
 import winston from 'winston';
 import SentryTransport from 'winston-transport-sentry-node';
+
+import { AppEnv } from '@main/env';
+import pkg from '../../../package.json';
 
 const sentryTransports = ['warn', 'error'].map(
   (logLevel) =>
     new SentryTransport({
       sentry: {
         dsn: AppEnv.SENTRY_DSN,
-        release: '0.0.0',
+        release: pkg.version,
+        environment: AppEnv.NODE_ENV,
         integrations: [
           new RewriteFrames({
             root: AppEnv.PROJECT_ROOT,

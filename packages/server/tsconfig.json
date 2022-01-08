@@ -12,6 +12,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "sourceRoot": "/",
+    "resolveJsonModule": true,
     "paths": {
       "@main/*": ["./src/main/*"],
       "@infra/*": ["./src/infra/*"],
