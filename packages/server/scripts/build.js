@@ -34,14 +34,22 @@ async function copyEnvFile() {
   const source = path.resolve(__dirname, '../.env');
   const dest = path.resolve(__dirname, '../build/.env');
 
-  handleShellOutput(shell.cp(source, dest));
+  const exists = shell.test('-e', dest);
+
+  if (exists) {
+    handleShellOutput(shell.cp(source, dest));
+  }
 }
 
 async function removeUnnecessaryOutput() {
   console.log('Removing unnecessary output');
   const testsOutputDir = path.resolve(__dirname, '../', outDir, 'test');
 
-  handleShellOutput(shell.rm('-r', testsOutputDir));
+  const exists = shell.test('-e', testsOutputDir);
+
+  if (exists) {
+    handleShellOutput(shell.rm('-r', testsOutputDir));
+  }
 }
 
 async function build() {
